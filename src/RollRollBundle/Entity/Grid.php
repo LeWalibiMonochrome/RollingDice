@@ -35,6 +35,12 @@ class Grid
      */
     private $played;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="RollRoll\RollRollBundle\Entity\Player", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $owner;
+
 
     /**
      * Get id
@@ -92,6 +98,29 @@ class Grid
     public function getPlayed()
     {
         return $this->played;
+    }
+
+    /**
+     * Set owner
+     *
+     * @param RollRoll\RollRollBundle\Entity\Player $owner
+     * @return Grid
+     */
+    public function setOwner($owner)
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return RollRoll\RollRollBundle\Entity\Player
+     */
+    public function getOwner()
+    {
+        return $this->owner;
     }
 }
 

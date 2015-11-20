@@ -17,8 +17,13 @@ class UserController extends Controller
     {
 
     	$player = new Player();
+        $form = $this->createForm(new LoginType(), $player, array(
+            'action' => '',
+            'method' => 'POST',
+        ));
+
         return $this->render('RollRollBundle:User:login.html.twig',array(
-        	'Login'=> new LoginType($player)
-        	));
+        	'Login'=> $form->createView()
+        ));
     }
 }

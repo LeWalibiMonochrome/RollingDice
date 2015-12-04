@@ -1,6 +1,6 @@
-<!DOCTYPE HTML>
-<html>
-  <head>
+{% extends "RollRollBundle::layout.html.twig" %}
+
+{% block content %}
     <style type="text/css">
       #orange, #jaune, #violet {
 	display: block;
@@ -99,8 +99,6 @@
       
       
     </style>
-  </head>
-  <body>
     <div>
     
       <div id="orange"></div>
@@ -174,8 +172,4 @@
       s += '<div class="rectangle"><span>'+'X'+'</span></div>';
       document.getElementById('grisFonce').innerHTML = s;
       </script>
-      
-      
-      
-  </body>
-</html>
+{% endblock %}

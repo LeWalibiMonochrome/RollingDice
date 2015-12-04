@@ -12,7 +12,7 @@ use RollRollBundle\Entity\Player;
 class UserController extends Controller
 {
     /**
-     * @Route("/register")
+     * @Route("/register",name="register")
      */
     public function registerAction(Request $request)
     {
@@ -36,8 +36,10 @@ class UserController extends Controller
         }
 
         return $this->render('RollRollBundle:User:login.html.twig',array(
-        	'Login'=> $form->createView()
+        	'Login'=> $form->createView(),
+            'title'=> 'Inscription'
         ));
+
     }
 
     /**
@@ -54,8 +56,8 @@ class UserController extends Controller
 
 
 
-        /**
-     * @Route("/login")
+    /**
+     * @Route("/login",name="login")
      */
     public function indexAction(Request $request)
     {
@@ -69,7 +71,10 @@ class UserController extends Controller
         if ($form->handleRequest($request)->isValid()){
 
          	$repo = $this->getDoctrine()->getRepository("RollRollBundle:Player");
-         	$user = $repo->findOneByPseudo($player->getPseudo());
+         	$user = $repo->findOneBy(
+                array($player->getPseudo(),
+                        $player->get
+                );
          	if($user){
          		 return $this->render('RollRollBundle:Default:error.html.twig',array( //Login réussi
         		'titre'=> "Login OK",
@@ -87,7 +92,8 @@ class UserController extends Controller
         }
 
         return $this->render('RollRollBundle:User:login.html.twig',array(
-        	'Login'=> $form->createView()
+        	'Login'=> $form->createView(),
+            'title'=>'Connexion'
         ));
     }
 

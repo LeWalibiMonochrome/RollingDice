@@ -1,7 +1,10 @@
+
 {% extends "RollRollBundle::layout.html.twig" %}
 
 {% block content %}
-    <style type="text/css">
+<script type="text/javascript" src="../../../../../web/js/dice.js"></script>
+<script type="text/javascript" src="../../../../../web/js/modele.js"></script>
+<style type="text/css">
       #orange, #jaune, #violet {
 	display: block;
 	width: 600px;
@@ -96,21 +99,57 @@
 	width: 100px;
       }
       
-      
+      .dice {
+	display: inline-block;
+	padding: 3px;
+	border: 1px solid black;
+	border-radius: 5px;
+      }
+      .dice table {
+	border: 0;
+	border-collapse: collapse;
+      }
+      .dice td {
+	border: 0;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	vertical-align: middle;
+      }
+      .diceBall {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	border-radius: 20px;
+	background: #000000;
+      }
+      .diceSelected {
+	 border: 2px solid red;
+      }
       
     </style>
+    
+    <script type="text/javascript">
+	
+	var game = new Game();		
+	
+	</script>
+    
     <div>
     
       <div id="orange"></div>
       <script>
       var s = "";
+      var j = 0;
       for(var i=0; i<10; i++){
 	if(i==3){
 	  s += '<div class="vide">&nbsp;</div>';
 	}else if(i==1 || i==5){
-	  s += '<div class="pentagon"><span>'+i+'</span></div>';
+	  s += '<div class="pentagon" onclik="game.chooseCase(j,0);"><span>'+game.getCase(0,j)+'</span></div>';
+	  j=j+1;
 	}else{
-	  s += '<div class="rond"><span>'+i+'</span></div>';
+	  s += '<div class="rond" onclik="game.chooseCase(j,0);"><span>'+game.getCase(0,j)+'</span></div>';
+	  j=j+1;
 	}
       }
       document.getElementById('orange').innerHTML = s;
@@ -119,13 +158,16 @@
       <div id="jaune"> </div>
       <script>
       var s = "";
+      var j = 0;
       for(var i=0; i<10; i++){
 	if(i==5){
 	  s += '<div class="vide">&nbsp;</div>';
 	}else if(i==7){
-	  s += '<div class="pentagon"><span>'+i+'</span></div>';
+	  s += '<div class="pentagon" onclik="game.chooseCase(j,1);"><span>'+game.getCase(1,j)+'</span></div>';
+	  j = j+1;
 	}else{
-	  s += '<div class="rond"><span>'+i+'</span></div>';
+	  s += '<div class="rond" onclik="game.chooseCase(j,1);"><span>'+game.getCase(1,j)+'</span></div>';
+	  j = j+1;
 	}
       }
       document.getElementById('jaune').innerHTML = s;
@@ -134,13 +176,16 @@
       <div id="violet"> </div>
       <script>
       var s = "";
+      var j = 0;
       for(var i=0; i<10; i++){
 	if(i==4){
 	  s += '<div class="vide">&nbsp;</div>';
 	}else if(i==2 || i==9){
-	  s += '<div class="pentagon"><span>'+i+'</span></div>';
+	  s += '<div class="pentagon" onclik="game.chooseCase(j,2);"><span>'+game.getCase(2,j)+'</span></div>';
+	  j = j+1;
 	}else{
-	  s += '<div class="rond"><span>'+i+'</span></div>';
+	  s += '<div class="rond" onclik="game.chooseCase(j,2);"><span>'+game.getCase(2,j)+'</span></div>';
+	  j = j+1;
 	}
       }
       document.getElementById('violet').innerHTML = s;
@@ -172,4 +217,42 @@
       s += '<div class="rectangle"><span>'+'X'+'</span></div>';
       document.getElementById('grisFonce').innerHTML = s;
       </script>
+      
+      <div class="dice" id="d1" onclick="d1.select();"> </div>
+      <div class="dice" id="d2" onclick="d2.select();"> </div>
+      <div class="dice" id="d3" onclick="d3.select();"> </div>
+      
+      <script type="text/javascript">
+
+	var d1 = new Dice('d1',1,'orange');
+	var d2 = new Dice('d2',2,'yellow');
+	var d3 = new Dice('d3',3,'#551A8B');
+
+	/*window.diceInt = setInterval(function(d1,d2,d3){
+		d1.set();
+		d2.set();
+		d3.set();
+	},200,d1,d2,d3);*/
+
+	var rollDices = function() {
+		clearInterval(window.diceInt);
+		game.chooseDices(d1.isSelected(), d2.isSelected(), d3.isSelected());
+		if(d1.isSelected()){
+		  d1.set();
+		}
+		if(d2.isSelected()){
+		  d2.set();
+		}
+		if(d3.isSelected()){
+		  d3.set();
+		}
+	}
+		
+	
+	</script>
+      
+	<br />
+	<a href="#" onclick="rollDices();">Lancer</a>
+
+
 {% endblock %}

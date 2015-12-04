@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use RollRollBundle\Entity\Game;
 use RollRollBundle\Form\CreateGameType;
+use Symfony\Component\HttpFoundation\Request;
 
 class GameController extends UserAwareController
 {

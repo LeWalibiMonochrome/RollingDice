@@ -9,7 +9,7 @@ use RollRollBundle\Form\LoginType;
 use RollRollBundle\Entity\Player;
 
 
-class UserController extends Controller
+class UserController extends UserAwareController
 {
     /**
      * @Route("/register",name="register")
@@ -35,7 +35,7 @@ class UserController extends Controller
 
         }
 
-        return $this->render('RollRollBundle:User:login.html.twig',array(
+        return parent::renderPage('RollRollBundle:User:login.html.twig',array(
         	'Login'=> $form->createView(),
             'title'=> 'Inscription'
         ));
@@ -49,9 +49,18 @@ class UserController extends Controller
     {
         $repo = $this->getDoctrine()->getRepository("RollRollBundle:Player");
 
-        return $this->render('RollRollBundle:Test:users.html.twig',array(
+        return parent::renderPage('RollRollBundle:Test:users.html.twig',array(
             'users' => $repo->findAll()
         ));
+    }
+
+    /**
+     * @Route("/logout", name="logout")
+     */
+    public function logoutAction()
+    {
+        parent::logout();
+        return $this->redirect($this->generateUrl('home'));
     }
 
     /**
@@ -75,13 +84,8 @@ class UserController extends Controller
             ));
 
          	if($user){
-         		 return $this->render('RollRollBundle:Default:error.html.twig',array(
-        		'titre'=> "Login OK",
-        		'message'=> "Ok"
-        	));
-
-
-
+                parent::saveUser($player);
+             	return $this->redirect($this->generateUrl('home'));
          	} else {
              	return $this->render('RollRollBundle:Default:error.html.twig',array(
             		'titre'=> "Erreur Login",
@@ -90,7 +94,7 @@ class UserController extends Controller
          	}
         }
 
-        return $this->render('RollRollBundle:User:login.html.twig',array(
+        return parent::renderPage('RollRollBundle:User:login.html.twig',array(
         	'Login'=> $form->createView(),
             'title'=>'Connexion'
         ));

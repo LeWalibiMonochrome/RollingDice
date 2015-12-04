@@ -5,13 +5,13 @@ namespace RollRollBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-class DefaultController extends Controller
+class DefaultController extends UserAwareController
 {
     /**
-     * @Route("/")
+     * @Route("/", name="home")
      */
     public function indexAction()
     {
-        return $this->render('RollRollBundle:Default:plateau.html.twig');
+        return parent::renderPage('RollRollBundle:Default:plateau.html.twig');
     }
 }

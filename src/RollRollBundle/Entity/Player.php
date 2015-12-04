@@ -3,6 +3,7 @@
 namespace RollRollBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Player
@@ -25,6 +26,13 @@ class Player
      * @var string
      *
      * @ORM\Column(name="pseudo", type="string", length=255, unique=true)
+     * @Assert\NotBlank(message="Entrez un pseudo")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Votre pseudo doit faire au moins {{ limit }} caractères",
+     *      maxMessage = "Votre pseudo doit faire moins de {{ limit }} caractères"
+     * )
      */
     private $pseudo;
 
@@ -34,6 +42,8 @@ class Player
      * @ORM\Column(name="password", type="string", length=255)
      */
     private $password;
+
+
 
 
     /**

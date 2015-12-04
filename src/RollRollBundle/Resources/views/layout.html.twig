@@ -42,11 +42,18 @@
             }
     	</style>
     	<div id="menu">
-    		<strong>RollingDice</strong>
+    		<strong>
+                <a href="{{ path('home') }}">RollingDice</a>
+            </strong>
+            
             <div style="float: right;">
-                <a href="{{ path('login') }}">Connexion</a>
-            </div>
-    	</div>
+            {% if user is defined and user is not null %}
+                {{ user.getPseudo() }} (<a href="{{ path('logout') }}">deconnexion</a>)
+            {% else %}
+                <a href="{{ path('login') }}">Connexion</a> / <a href="{{ path('register') }}">Inscription</a>
+            {% endif %}
+    	   </div>
+        </div>
 
         <div id="container">
             <div id="supcontainer">

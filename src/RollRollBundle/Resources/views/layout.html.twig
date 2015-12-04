@@ -43,7 +43,9 @@
     	</style>
     	<div id="menu">
     		<strong>
-                <a href="{{ path('home') }}">RollingDice</a>
+                <a href="{% if user is defined and user is not null %}{{ path('games') }}{% else %}{{ path('home') }}{% endif %}">
+                    RollingDice
+                </a>
             </strong>
             
             <div style="float: right;">

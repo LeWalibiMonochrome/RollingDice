@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use RollRollBundle\Entity\Game;
+use RollRollBundle\Entity\Grid;
 use RollRollBundle\Form\CreateGameType;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -35,10 +36,24 @@ class GameController extends UserAwareController
      */
     public function createGameAction(Request $request)
     {
+        $user = parent::getUser();
+
+        if(!$user) {
+            return $this->render('RollRollBundle:Default:error.html.twig',array(
+                'titre'=> "Utilisateur inconnu",
+                'message'=> "Vous devez être connecté pour accéder à cette page"
+            ));
+        }
 
         $game = new Game();
         $game->setStatus(0);
-        $game->setPlayerOrder(' ');
+        $game->setPlayerOrder($user->getId().'');
+
+        $grid = new Grid();
+        $grid->setScoreSheet('..');
+        $grid->setPlayed(0);
+        $grid->setOwner($user);
+        $grid->setGame($game);
 
         $form = $this->createForm(new CreateGameType(), $game, array(
             'action' => '',
@@ -47,6 +62,7 @@ class GameController extends UserAwareController
 
         if ($form->handleRequest($request)->isValid()){
             $this->getDoctrine()->getManager()->persist($game);
+            $this->getDoctrine()->getManager()->persist($grid);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->render('RollRollBundle:Default:error.html.twig',array(

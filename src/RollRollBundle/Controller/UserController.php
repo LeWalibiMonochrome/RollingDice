@@ -25,22 +25,14 @@ class UserController extends Controller
 
         if ($form->handleRequest($request)->isValid()){
 
-         	$repo = $this->getDoctrine()->getRepository("RollRollBundle:Player");
-         	$user = $repo->findOneByPseudo($player->getPseudo());
-         	if($user){
-         		 return $this->render('RollRollBundle:Default:error.html.twig',array( //Login réussi
-        		'titre'=> "Login OK",
-        		'message'=> "Ok"
-        	));
+       	 	 $this->getDoctrine()->getManager()->persist($player);
+       		$this->getDoctrine()->getManager()->flush();
+       		return $this->render('RollRollBundle:Default:error.html.twig',array(
+            	'titre'=> "Inscription Ok",
+            	'message'=> "ID : " .$player->getId()
+            ));
 
 
-
-         	} else {
-             	return $this->render('RollRollBundle:Default:error.html.twig',array(
-            		'titre'=> "Erreur Login",
-            		'message'=> "Erreur"
-            	));
-         	}
         }
 
         return $this->render('RollRollBundle:User:login.html.twig',array(
@@ -60,23 +52,7 @@ class UserController extends Controller
         ));
     }
 
-    /**
-     * @Route("/creerUser")
-     */
-    public function createUserAction()
-    {
-        $user = new Player();
-        $user->setPseudo('Bob');
-        $user->setPassword('bob');
 
-        $this->getDoctrine()->getManager()->persist($user);
-        $this->getDoctrine()->getManager()->flush();
-
-        return $this->render('RollRollBundle:Default:error.html.twig',array(
-            'titre'=> "User créé",
-            'message'=> "ID : " . $user->getId()
-        ));
-    }
 
         /**
      * @Route("/login")

@@ -54,12 +54,10 @@ class UserController extends Controller
         ));
     }
 
-
-
     /**
      * @Route("/login",name="login")
      */
-    public function indexAction(Request $request)
+    public function loginAction(Request $request)
     {
 
     	$player = new Player();
@@ -71,12 +69,13 @@ class UserController extends Controller
         if ($form->handleRequest($request)->isValid()){
 
          	$repo = $this->getDoctrine()->getRepository("RollRollBundle:Player");
-         	$user = $repo->findOneBy(
-                array($player->getPseudo(),
-                        $player->get
-                );
+         	$user = $repo->findOneBy(array(
+                'pseudo' => $player->getPseudo(),
+                'password' => $player->getPassword()
+            ));
+
          	if($user){
-         		 return $this->render('RollRollBundle:Default:error.html.twig',array( //Login réussi
+         		 return $this->render('RollRollBundle:Default:error.html.twig',array(
         		'titre'=> "Login OK",
         		'message'=> "Ok"
         	));

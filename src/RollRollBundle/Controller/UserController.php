@@ -9,10 +9,10 @@ use RollRollBundle\Form\LoginType;
 use RollRollBundle\Entity\Player;
 
 
-class UserController extends Controller
+class UserController extends UserAwareController
 {
     /**
-     * @Route("/register")
+     * @Route("/register",name="register")
      */
     public function registerAction(Request $request)
     {
@@ -25,27 +25,21 @@ class UserController extends Controller
 
         if ($form->handleRequest($request)->isValid()){
 
-         	$repo = $this->getDoctrine()->getRepository("RollRollBundle:Player");
-         	$user = $repo->findOneByPseudo($player->getPseudo());
-         	if($user){
-         		 return $this->render('RollRollBundle:Default:error.html.twig',array( //Login réussi
-        		'titre'=> "Login OK",
-        		'message'=> "Ok"
-        	));
+       	 	 $this->getDoctrine()->getManager()->persist($player);
+       		$this->getDoctrine()->getManager()->flush();
+       		return $this->render('RollRollBundle:Default:error.html.twig',array(
+            	'titre'=> "Inscription Ok",
+            	'message'=> "ID : " .$player->getId()
+            ));
 
 
-
-         	} else {
-             	return $this->render('RollRollBundle:Default:error.html.twig',array(
-            		'titre'=> "Erreur Login",
-            		'message'=> "Erreur"
-            	));
-         	}
         }
 
-        return $this->render('RollRollBundle:User:login.html.twig',array(
-        	'Login'=> $form->createView()
+        return parent::renderPage('RollRollBundle:User:login.html.twig',array(
+        	'Login'=> $form->createView(),
+            'title'=> 'Inscription'
         ));
+
     }
 
     /**
@@ -55,33 +49,24 @@ class UserController extends Controller
     {
         $repo = $this->getDoctrine()->getRepository("RollRollBundle:Player");
 
-        return $this->render('RollRollBundle:Test:users.html.twig',array(
+        return parent::renderPage('RollRollBundle:Test:users.html.twig',array(
             'users' => $repo->findAll()
         ));
     }
 
     /**
-     * @Route("/creerUser")
+     * @Route("/logout", name="logout")
      */
-    public function createUserAction()
+    public function logoutAction()
     {
-        $user = new Player();
-        $user->setPseudo('Bob');
-        $user->setPassword('bob');
-
-        $this->getDoctrine()->getManager()->persist($user);
-        $this->getDoctrine()->getManager()->flush();
-
-        return $this->render('RollRollBundle:Default:error.html.twig',array(
-            'titre'=> "User créé",
-            'message'=> "ID : " . $user->getId()
-        ));
+        parent::logout();
+        return $this->redirect($this->generateUrl('home'));
     }
 
-        /**
-     * @Route("/login")
+    /**
+     * @Route("/login",name="login")
      */
-    public function indexAction(Request $request)
+    public function loginAction(Request $request)
     {
 
     	$player = new Player();
@@ -93,15 +78,14 @@ class UserController extends Controller
         if ($form->handleRequest($request)->isValid()){
 
          	$repo = $this->getDoctrine()->getRepository("RollRollBundle:Player");
-         	$user = $repo->findOneByPseudo($player->getPseudo());
+         	$user = $repo->findOneBy(array(
+                'pseudo' => $player->getPseudo(),
+                'password' => $player->getPassword()
+            ));
+
          	if($user){
-         		 return $this->render('RollRollBundle:Default:error.html.twig',array( //Login réussi
-        		'titre'=> "Login OK",
-        		'message'=> "Ok"
-        	));
-
-
-
+                parent::saveUser($player);
+             	return $this->redirect($this->generateUrl('home'));
          	} else {
              	return $this->render('RollRollBundle:Default:error.html.twig',array(
             		'titre'=> "Erreur Login",
@@ -110,8 +94,9 @@ class UserController extends Controller
          	}
         }
 
-        return $this->render('RollRollBundle:User:login.html.twig',array(
-        	'Login'=> $form->createView()
+        return parent::renderPage('RollRollBundle:User:login.html.twig',array(
+        	'Login'=> $form->createView(),
+            'title'=>'Connexion'
         ));
     }
 

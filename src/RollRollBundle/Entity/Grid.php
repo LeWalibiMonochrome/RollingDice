@@ -36,10 +36,16 @@ class Grid
     private $played;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RollRoll\RollRollBundle\Entity\Player", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="RollRollBundle\Entity\Player", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $owner;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="RollRollBundle\Entity\Game", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $game;
 
 
     /**
@@ -121,6 +127,29 @@ class Grid
     public function getOwner()
     {
         return $this->owner;
+    }
+
+    /**
+     * Set game
+     *
+     * @param RollRoll\RollRollBundle\Entity\PGame $game
+     * @return Grid
+     */
+    public function setGame($game)
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    /**
+     * Get game
+     *
+     * @return RollRoll\RollRollBundle\Entity\PGame
+     */
+    public function getGame()
+    {
+        return $this->game;
     }
 }
 

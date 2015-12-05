@@ -1,5 +1,4 @@
-
-      #orange, #jaune, #violet {
+#orange, #jaune, #violet {
 	display: block;
 	width: 600px;
 	margin: 10px;
@@ -8,22 +7,25 @@
 	-moz-border-radius: 6px;
 	-o-border-radius: 6px;
 	border-radius: 6px;
-      }
-      #orange {
+}
+
+#orange {
 	background-color: orange;
 	position: relative;
 	left: 120px;
-      }
-      #jaune {
+}
+
+#jaune {
 	background-color: yellow;
 	position: relative;
 	left: 60px;
-      }
-      #violet {
+}
+
+#violet {
 	background-color: #551A8B;
-      }
-      
-      #grisClair, #grisFonce{
+}
+	  
+#grisClair, #grisFonce {
 	display: block;
 	width: 720px;
 	padding: 2px;
@@ -31,94 +33,93 @@
 	-moz-border-radius: 6px;
 	-o-border-radius: 6px;
 	border-radius: 6px;
-      }
-      
-      #grisClair{
+}
+
+#grisClair {
 	margin-top: 50px;
 	background-color: #E2E2E2;
-      }
-      
-      #grisFonce{
+}
+	  
+#grisFonce{
 	background-color: #A4A4A4;
-      }
-      
-      .rond, .pentagon, .vide, .carre, .premierCarre, .carreOrange, .carreJaune, .carreViolet, .rectangle{
+}
+	  
+.rond, .pentagon, .vide, .carre, .premierCarre, .carreOrange, .carreJaune, .carreViolet, .rectangle {
 	display:inline-block;
 	width:50px; 
 	height:50px;
 	text-align: center;
 	font-size: 25px;
 	margin: 3px;
-      
-      }
-      
-      .rond span, .pentagon span, .carre span, .premierCarre span, .carreOrange span, .carreJaune span, .carreViolet span, .rectangle span{
+}
+	  
+.rond span, .pentagon span, .carre span, .premierCarre span, .carreOrange span, .carreJaune span, .carreViolet span, .rectangle span {
 	position: relative;
 	top: 10px;
-      }
-      
-      .rond{
+}
+	  
+.rond {
 	background:white;
 	border-radius:50%;
 	border:2px solid black; 
-      }
-      
-      .pentagon {
-	background: url("pentagone.png");
-      }
-      
-      .carre, .premierCarre, .carreOrange, .carreJaune, .carreViolet, .rectangle{
+}
+
+.pentagon {
+	background: url("../pentagone.png");
+}
+	  
+.carre, .premierCarre, .carreOrange, .carreJaune, .carreViolet, .rectangle {
 	background:white;
 	border-radius:10%;
 	border:2px solid black; 
-      }
-     
-      .premierCarre{
+}
+
+.premierCarre {
 	margin-left: 200px;
-      }
-      .carreOrange, .carreJaune, .carreViolet{
+}
+.carreOrange, .carreJaune, .carreViolet {
 	margin: 10px;
-      }
-      .carreOrange{
-	border:2px solid orange; 
-      }
-      .carreJaune{
-	border:2px solid yellow; 
-      }
-      .carreViolet{
-	border:2px solid #551A8B; 
-      }
-      
-      .rectangle{
+}
+.carreOrange {
+	border: 2px solid orange; 
+}
+.carreJaune{
+	border: 2px solid yellow; 
+}
+.carreViolet {
+	border: 2px solid #551A8B; 
+}
+
+.rectangle {
 	width: 100px;
-      }
-      
-      .dice {
+}
+
+.dice {
 	display: inline-block;
 	padding: 3px;
 	border: 1px solid black;
 	border-radius: 5px;
-      }
-      .dice table {
+}
+.dice table {
 	border: 0;
 	border-collapse: collapse;
-      }
-      .dice td {
+}
+.dice td {
 	border: 0;
 	width: 25px;
 	height: 25px;
 	text-align: center;
 	vertical-align: middle;
-      }
-      .diceBall {
+}
+
+.diceBall {
 	display: inline-block;
 	width: 20px;
 	height: 20px;
 	border-radius: 10px;
 	background: #000000;
-      }
-      .diceSelected {
-	 border: 2px solid red;
-      }
-      
- 
+}
+
+.diceSelected {
+	border: 2px solid red;
+}

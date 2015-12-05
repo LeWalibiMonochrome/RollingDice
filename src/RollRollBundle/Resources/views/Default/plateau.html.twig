@@ -1,135 +1,76 @@
-
 {% extends "RollRollBundle::layout.html.twig" %}
-
 {% block content %}
 <script type="text/javascript" src="{{ asset('/js/dice.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/modele.js') }}"></script>
-<style type="text/css" src="{{ asset ('/css/plateau.css') }}" ></style>
-    
-    <script type="text/javascript">
 	
-	var game = new Game();		
+<div>
+	<div id="orange"></div>
+	<div id="jaune"></div>
+	<div id="violet"> </div>
+	<div id="grisFonce"></div>
+	<div id="grisClair"></div>
+  
+	<div class="dice" id="d1" onclick="d1.select();"> </div>
+	<div class="dice" id="d2" onclick="d2.select();"> </div>
+	<div class="dice" id="d3" onclick="d3.select();"> </div>
+	<br /><a href="#" onclick="rollDices();">Lancer</a>
+</div>
+<script type="text/javascript">
+	var game = new Game();
 	
-	</script>
-    
-    <div>
-    
-      <div id="orange"></div>
-      <script>
-      var s = "";
-      var j = 0;
-      for(var i=0; i<10; i++){
-	if(i==3){
-	  s += '<div class="vide">&nbsp;</div>';
-	}else if(i==1 || i==5){
-	  s += '<div class="pentagon" onclik="game.chooseCase(j,0);"><span>'+game.getCase(0,j)+'</span></div>';
-	  j=j+1;
-	}else{
-	  s += '<div class="rond" onclik="game.chooseCase(j,0);"><span>'+game.getCase(0,j)+'</span></div>';
-	  j=j+1;
+	for(var p = 0, d = ['orange','jaune','violet'], s = ""; p < 3; p++) {
+		s = "";
+		for(var i = 0, j = 0; i < 10; i++) {
+			if(i == 3) {
+				s += '<div class="vide">&nbsp;</div>';
+			} else if(i == 1 || i == 5){
+				s += '<div class="pentagon" onclik="game.chooseCase('+j+','+p+');"><span>'+game.getCase(p,j++)+'</span></div>';
+			} else {
+				s += '<div class="rond" onclik="game.chooseCase('+j+','+p+');"><span>'+game.getCase(p,j++)+'</span></div>';
+			}
+		}
+		document.getElementById(d[p]).innerHTML = s;
 	}
-      }
-      document.getElementById('orange').innerHTML = s;
-      </script>
-      
-      <div id="jaune"> </div>
-      <script>
-      var s = "";
-      var j = 0;
-      for(var i=0; i<10; i++){
-	if(i==5){
-	  s += '<div class="vide">&nbsp;</div>';
-	}else if(i==7){
-	  s += '<div class="pentagon" onclik="game.chooseCase(j,1);"><span>'+game.getCase(1,j)+'</span></div>';
-	  j = j+1;
-	}else{
-	  s += '<div class="rond" onclik="game.chooseCase(j,1);"><span>'+game.getCase(1,j)+'</span></div>';
-	  j = j+1;
-	}
-      }
-      document.getElementById('jaune').innerHTML = s;
-      </script>
-      
-      <div id="violet"> </div>
-      <script>
-      var s = "";
-      var j = 0;
-      for(var i=0; i<10; i++){
-	if(i==4){
-	  s += '<div class="vide">&nbsp;</div>';
-	}else if(i==2 || i==9){
-	  s += '<div class="pentagon" onclik="game.chooseCase(j,2);"><span>'+game.getCase(2,j)+'</span></div>';
-	  j = j+1;
-	}else{
-	  s += '<div class="rond" onclik="game.chooseCase(j,2);"><span>'+game.getCase(2,j)+'</span></div>';
-	  j = j+1;
-	}
-      }
-      document.getElementById('violet').innerHTML = s;
-      </script>
-      
-      <div id="grisClair"></div>
-      <script>
-      var s= "";
-      s += '<div class="premierCarre"><span>'+'X'+'</span></div>';
-      for(var i=1; i<4; i++){
-	s += '<div class="carre"><span>'+'X'+'</span></div>';
-      }
-      document.getElementById('grisClair').innerHTML = s;
-      </script>
-      
-      <div id="grisFonce"></div>
-      <script>
-      var s= "";
-      s += '<div class="carreOrange"><span>'+'X'+'</span></div>';
-      s += '<div class="carreJaune"><span>'+'X'+'</span></div>';
-      s += '<div class="carreViolet"><span>'+'X'+'</span></div>';  
-      s += '+';
-      for(var i=0; i<5; i++){
-	s += '<div class="pentagon"><span>'+'X'+'</span></div>';
-      }
-      s += '-';
-      s += '<div class="carre"><span>'+'X'+'</span></div>';
-      s += '=';
-      s += '<div class="rectangle"><span>'+'X'+'</span></div>';
-      document.getElementById('grisFonce').innerHTML = s;
-      </script>
-      
-      <div class="dice" id="d1" onclick="d1.select();"> </div>
-      <div class="dice" id="d2" onclick="d2.select();"> </div>
-      <div class="dice" id="d3" onclick="d3.select();"> </div>
-      
-      <script type="text/javascript">
 
-	var d1 = new rollroll.Dice('d1',1,'orange');
-	var d2 = new rollroll.Dice('d2',2,'yellow');
-	var d3 = new rollroll.Dice('d3',3,'#551A8B');
+	var s = '<div class="premierCarre"><span>'+'X'+'</span></div>';
+	for(var i = 1; i < 4; i++) {
+		s += '<div class="carre"><span>'+'X'+'</span></div>';
+	}
+	document.getElementById('grisClair').innerHTML = s;
+	  
 
-	/*window.diceInt = setInterval(function(d1,d2,d3){
-		d1.set();
-		d2.set();
-		d3.set();
-	},200,d1,d2,d3);*/
+	var s 	= '<div class="carreOrange"><span>'+'X'+'</span></div>'
+			+ '<div class="carreJaune"><span>'+'X'+'</span></div>'
+			+ '<div class="carreViolet"><span>'+'X'+'</span></div> + ';
+
+	for(var i=0; i<5; i++) {
+		s += '<div class="pentagon"><span>'+'X'+'</span></div>';
+	}
+	s 	+= '- <div class="carre"><span>'+'X'+'</span></div> = <div class="rectangle"><span>'+'X'+'</span></div>';
+	document.getElementById('grisFonce').innerHTML = s;
+
+	var d1 = new rollroll.Dice('d1',1,'orange'),
+		d2 = new rollroll.Dice('d2',2,'yellow'),
+		d3 = new rollroll.Dice('d3',3,'#551A8B');
 
 	var rollDices = function() {
-		clearInterval(window.diceInt);
-		game.chooseDices(d1.isSelected(), d2.isSelected(), d3.isSelected());
-		if(d1.isSelected()){
-		  d1.set();
-		}
-		if(d2.isSelected()){
-		  d2.set();
-		}
-		if(d3.isSelected()){
-		  d3.set();
-		}
+		//Lancement de l'animation des dés
+		window.diceInt = setInterval(function(d1,d2,d3){
+			d1.isSelected() && d1.set();
+			d2.isSelected() && d2.set();
+			d3.isSelected() && d3.set();
+		},200,d1,d2,d3);
+
+		//Arrêt des dés au bout de 2 secondes
+		//Dans la version finale, c'est la réception de la requête XHR
+		//qui stopera les dés et les affectera aux valeurs définies par le serveur
+		setTimeout(function(){
+			clearInterval(window.diceInt);
+			game.chooseDices(d1.isSelected(), d2.isSelected(), d3.isSelected());
+			d1.isSelected() && d1.set();
+			d2.isSelected() && d2.set();
+			d3.isSelected() && d3.set();
+		},2000);
 	}
-		
-	
 	</script>
-      
-	<br />
-	<a href="#" onclick="rollDices();">Lancer</a>
-
-
 {% endblock %}

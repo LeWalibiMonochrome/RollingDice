@@ -4,43 +4,8 @@
         <title>RollRollBundle</title>
     </head>
     <body>
-    	<style>
-    		html {
-    			background: #DDD;
-    			margin: 0;
-    			padding: 0;
-    		}
-    		#menu {
-    			display: block;
-    			width: 100%;
-    			background: rgba(0,0,0,0.7);
-    			padding: 5px;
-    			color: white;
-    			position: absolute;
-    			top: 0;
-    			left: 0;
-    		}
-            #menu a {
-                color: white;
-                text-decoration: none;
-            }
-            #container {
-                display: block;
-                width: 100%;
-                height: 100%;
-                margin: 0;
-                position: absolute;
-                top: 30px;
-                left: 0;
-                padding: 30px;
-                text-align: center;
-            }
-            #supcontainer {
-                display: inline-block;
-                text-align: left;
-                width: 70%;
-            }
-    	</style>
+        <link href="{{ asset('css/skin.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('css/plateau.css') }}" rel="stylesheet" type="text/css">
     	<div id="menu">
     		<strong>
                 <a href="{% if user is defined and user is not null %}{{ path('games') }}{% else %}{{ path('home') }}{% endif %}">

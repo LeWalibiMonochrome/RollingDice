@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style type="text/css">
+      #orange, #jaune, #violet {
+	display: block;
+	width: 600px;
+	margin: 10px;
+	padding: 2px;
+	-webkit-border-radius: 6px;
+	-moz-border-radi
+	us: 6px;
+	-o-border-radius: 6px;
+	border-radius: 6px;
+      }
+      #orange {
+	background-color: orange;
+	position: relative;
+	left: 120px;
+      }
+      #jaune {
+	background-color: yellow;
+	position: relative;
+	left: 60px;
+      }
+      #violet {
+	background-color: #551A8B;
+      }
+      
+      .rond, .pentagon, .vide{
+	display:inline-block;
+	width:50px; 
+	height:50px;
+	text-align: center;
+	font-size: 25px;
+	margin: 3px;
+      
+      }
+      
+      .rond{
+	background:white;
+	border-radius:50%;
+	border:2px solid black; 
+      }
+      .rond span {
+	position: relative;
+	top: 10px;
+      }
+      
+      .pentagon {
+	background: url("pentagone.png");
+      }
+      .pentagon span{
+	position: relative;
+	top: 10px;
+      }
+      
+      .vide{
+      }
+      
+    </style>
+  </head>
+  <body>
+    <div>
+    
+      <div id="orange"></div>
+      <script>
+      var s = "";
+      for(var i=0; i<10; i++){
+	if(i==3){
+	  s += '<div class="vide">&nbsp;</div>';
+	}else if(i==1 || i==5){
+	  s += '<div class="pentagon"><span>'+i+'</span></div>';
+	}else{
+	  s += '<div class="rond"><span>'+i+'</span></div>';
+	}
+      }
+      document.getElementById('orange').innerHTML = s;
+      </script>
+      
+      <div id="jaune"> </div>
+      <script>
+      var s = "";
+      for(var i=0; i<10; i++){
+	if(i==5){
+	  s += '<div class="vide">&nbsp;</div>';
+	}else if(i==7){
+	  s += '<div class="pentagon"><span>'+i+'</span></div>';
+	}else{
+	  s += '<div class="rond"><span>'+i+'</span></div>';
+	}
+      }
+      document.getElementById('jaune').innerHTML = s;
+      </script>
+      
+      <div id="violet"> </div>
+      <script>
+      var s = "";
+      for(var i=0; i<10; i++){
+	if(i==4){
+	  s += '<div class="vide">&nbsp;</div>';
+	}else if(i==2 || i==9){
+	  s += '<div class="pentagon"><span>'+i+'</span></div>';
+	}else{
+	  s += '<div class="rond"><span>'+i+'</span></div>';
+	}
+      }
+      document.getElementById('violet').innerHTML = s;
+      </script>
+      
+      <div class="pentagon"></div>
+      
+  </body>
+</html>

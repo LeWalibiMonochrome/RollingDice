@@ -39,13 +39,13 @@
 	document.getElementById('grisClair').innerHTML = s;
 	  
 
-	var s 	= '<div class="carreOrange"><span>'+'X'+'</span></div>'
-			+ '<div class="carreJaune"><span>'+'X'+'</span></div>'
-			+ '<div class="carreViolet"><span>'+'X'+'</span></div> + ';
+	var s = [
+		'<div class="carreOrange"><span>','X','</span></div>',
+		'<div class="carreJaune"><span>','X','</span></div>',
+		'<div class="carreViolet"><span>','X','</span></div> + '
+	].join('');
 
-	for(var i=0; i<5; i++) {
-		s += '<div class="pentagon"><span>'+'X'+'</span></div>';
-	}
+	s += (('<div class="pentagon"><span>'+'X'+'</span></div>').repeat(5));
 	s 	+= '- <div class="carre"><span>'+'X'+'</span></div> = <div class="rectangle"><span>'+'X'+'</span></div>';
 	document.getElementById('grisFonce').innerHTML = s;
 
@@ -56,21 +56,25 @@
 	var rollDices = function() {
 		//Lancement de l'animation des dés
 		window.diceInt = setInterval(function(d1,d2,d3){
-			d1.isSelected() && d1.set();
-			d2.isSelected() && d2.set();
-			d3.isSelected() && d3.set();
+			d1.selected && d1.set();
+			d2.selected && d2.set();
+			d3.selected && d3.set();
 		},200,d1,d2,d3);
 
-		//Arrêt des dés au bout de 2 secondes
-		//Dans la version finale, c'est la réception de la requête XHR
-		//qui stopera les dés et les affectera aux valeurs définies par le serveur
-		setTimeout(function(){
+		//Envoi d'une requête pour demander 3 dés
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', "/xhr/gendices/"+(d1.selected?'y':'n')+"/"+(d2.selected?'y':'n')+"/"+(d3.selected?'y':'n'), true);
+		xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+		xhr.onload = function (e) {
 			clearInterval(window.diceInt);
-			game.chooseDices(d1.isSelected(), d2.isSelected(), d3.isSelected());
-			d1.isSelected() && d1.set();
-			d2.isSelected() && d2.set();
-			d3.isSelected() && d3.set();
-		},2000);
+			var xt = xhr.responseText.split('/');
+			game.chooseDices(d1.selected, d2.selected, d3.selected);
+			console.log(xt);
+			d1.selected && d1.set(parseInt(xt[0]));
+			d2.selected && d2.set(parseInt(xt[1]));
+			d3.selected && d3.set(parseInt(xt[2]));
+		};
+		xhr.send(null); //on enverra les données de la partie (l'id de la grille par ex) ici
 	}
 	</script>
 {% endblock %}

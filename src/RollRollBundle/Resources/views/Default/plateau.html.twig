@@ -40,13 +40,15 @@
 	  
 
 	var s = [
-		'<div class="carreOrange"><span>','X','</span></div>',
-		'<div class="carreJaune"><span>','X','</span></div>',
-		'<div class="carreViolet"><span>','X','</span></div> + '
+		'<div class="carreOrange"><span>',game.colorsScore[0],'</span></div>',
+		'<div class="carreJaune"><span>',game.colorsScore[1],'</span></div>',
+		'<div class="carreViolet"><span>',game.colorsScore[2],'</span></div> + '
 	].join('');
 
-	s += (('<div class="pentagon"><span>'+'X'+'</span></div>').repeat(5));
-	s 	+= '- <div class="carre"><span>'+'X'+'</span></div> = <div class="rectangle"><span>'+'X'+'</span></div>';
+	for(var i = 0; i < 5; i++) {
+		s += '<div class="pentagon"><span>'+game.pentagonScore[i]+'</span></div>';
+	}
+	s += '- <div class="carre"><span>'+game.missed*5+'</span></div> = <div class="rectangle"><span>'+game.totalScore+'</span></div>';
 	document.getElementById('grisFonce').innerHTML = s;
 
 	var d1 = new rollroll.Dice('d1',1,'orange'),

@@ -43,11 +43,10 @@ class Game
     private $status;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="playerOrder", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="RollRollBundle\Entity\Player", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $playerOrder;
+    private $currentPlayer;
 
 
     /**
@@ -154,6 +153,30 @@ class Game
     public function getPlayerOrder()
     {
         return $this->playerOrder;
+    }
+
+    /**
+     * Set currentPlayer
+     *
+     * @param string $currentPlayer
+     *
+     * @return Player
+     */
+    public function setCurrentPlayer($currentPlayer)
+    {
+        $this->currentPlayer = $currentPlayer;
+
+        return $this;
+    }
+
+    /**
+     * Get currentPlayer
+     *
+     * @return string
+     */
+    public function getCurrentPlayer()
+    {
+        return $this->currentPlayer;
     }
 }
 

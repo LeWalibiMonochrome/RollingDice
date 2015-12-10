@@ -44,8 +44,6 @@ class Player
     private $password;
 
 
-
-
     /**
      * Get id
      *

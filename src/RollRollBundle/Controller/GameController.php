@@ -155,7 +155,7 @@ class GameController extends UserAwareController
 
         $game = new Game();
         $game->setStatus(0);
-        $game->setPlayerOrder($user->getId().'');
+        $game->setCurrentPlayer($user);
 
         $grid = new Grid();
         $grid->setScoreSheet('..');

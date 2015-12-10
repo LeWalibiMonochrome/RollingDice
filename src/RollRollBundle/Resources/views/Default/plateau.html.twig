@@ -14,32 +14,22 @@
 	<div class="dice" id="d2" onclick="d2.select();"> </div>
 	<div class="dice" id="d3" onclick="d3.select();"> </div>
 	<br /><a href="#" onclick="rollDices();">Lancer</a>
+	<div id="listPlayers" ></div>
+	
 </div>
 <script type="text/javascript">
 	var game = new rollroll.Game();
 	var s = "", pid = {{ grid.getId() }};
 	val = 0;
-	/*for(var p = 0, d = ['orange','jaune','violet'], s = ""; p < 3; p++) {
-		s = "";
-		for(var i = 0, j = 0; i < 10; i++) {
-			if(i == 3) {
-				s += '<div class="vide">&nbsp;</div>';
-			} else if(i == 1 || i == 5){
-				s += '<div class="pentagon" onclik="game.chooseCase('+j+','+p+');"><span>'+game.getCase(p,j++)+'</span></div>';
-			} else {
-				s += '<div class="rond" onclik="game.chooseCase('+j+','+p+');"><span>'+game.getCase(p,j++)+'</span></div>';
-			}
-		}
-		document.getElementById(d[p]).innerHTML = s;
-	}*/
+	showPlayers(['Nico','Yann'],0);
 	
 	for(var i=0, j=0; i<10; i++){
 	  if(i == 3) {
 	    s += '<div class="vide">&nbsp;</div>';
 	  }else if(i == 1 || i == 5){
-	    s += '<div class="pentagon" id="o'+j+'" onclick="placeDices(0,'+j+');"><span>'+game.getCase(0,j++)+'</span></div>';
+	    s += '<div class="pentagon" id="o'+j+'" onclick="placeDices(0,'+j+');"><span>&nbsp;</span></div>';
 	  } else {
-	    s += '<div class="rond" id="o'+j+'" onclick="placeDices(0,'+j+');"><span>'+game.getCase(0,j++)+'</span></div>';
+	    s += '<div class="rond" id="o'+j+'" onclick="placeDices(0,'+j+');"><span>&nbsp;</span></div>';
 	  }
 	}
 	document.getElementById('orange').innerHTML = s;
@@ -49,9 +39,9 @@
 	  if(i == 5) {
 	    s += '<div class="vide">&nbsp;</div>';
 	  }else if(i == 7){
-	    s += '<div class="pentagon" id="j'+j+'" onclick="placeDices(1,'+j+');"><span>'+game.getCase(1,j++)+'</span></div>';
+	    s += '<div class="pentagon" id="j'+j+'" onclick="placeDices(1,'+j+');"><span>&nbsp;</span></div>';
 	  } else {
-	    s += '<div class="rond" id="j'+j+'" onclick="placeDices(1,'+j+');"><span>'+game.getCase(1,j++)+'</span></div>';
+	    s += '<div class="rond" id="j'+j+'" onclick="placeDices(1,'+j+');"><span>&nbsp;</span></div>';
 	  }
 	}
 	document.getElementById('jaune').innerHTML = s;
@@ -61,31 +51,31 @@
 	  if(i == 4) {
 	    s += '<div class="vide">&nbsp;</div>';
 	  }else if(i == 2 || i == 9){
-	    s += '<div class="pentagon" id="v'+j+'" onclick="placeDices(2,'+j+');"><span>'+game.getCase(2,j++)+'</span></div>';
+	    s += '<div class="pentagon" id="v'+j+'" onclick="placeDices(2,'+j+');"><span>&nbsp;</span></div>';
 	  } else {
-	    s += '<div class="rond" id="v'+j+'" onclick="placeDices(2,'+j+');"><span>'+game.getCase(2,j++)+'</span></div>';
+	    s += '<div class="rond" id="v'+j+'" onclick="placeDices(2,'+j+');"><span>&nbsp;</span></div>';
 	  }
 	}
 	document.getElementById('violet').innerHTML = s;
 	s = "";
 
-	var s = '<div class="premierCarre"><span>'+'X'+'</span></div>';
+	var s = '<div class="premierCarre" id="m0"><span>&nbsp;</span></div>';
 	for(var i = 1; i < 4; i++) {
-		s += '<div class="carre"><span>'+'X'+'</span></div>';
+		s += '<div class="carre" id="m'+i+'"><span>&nbsp;</span></div>';
 	}
 	document.getElementById('grisClair').innerHTML = s;
 	  
 
 	var s = [
-		'<div class="carreOrange"><span>',game.colorsScore[0],'</span></div>',
-		'<div class="carreJaune"><span>',game.colorsScore[1],'</span></div>',
-		'<div class="carreViolet"><span>',game.colorsScore[2],'</span></div> + '
+		'<div class="carreOrange" id="sc0"><span>',game.colorsScore[0],'</span></div>',
+		'<div class="carreJaune" id="sc1"><span>',game.colorsScore[1],'</span></div>',
+		'<div class="carreViolet" id="sc2"><span>',game.colorsScore[2],'</span></div> + '
 	].join('');
 
 	for(var i = 0; i < 5; i++) {
-		s += '<div class="pentagon"><span>'+game.pentagonScore[i]+'</span></div>';
+		s += '<div class="pentagon" id="sp'+i+'"><span>'+game.pentagonScore[i]+'</span></div>';
 	}
-	s += '- <div class="carre"><span>'+game.missed*5+'</span></div> = <div class="rectangle"><span>'+game.totalScore+'</span></div>';
+	s += '- <div class="carre" id="sm"><span>'+game.missed*5+'</span></div> = <div class="rectangle" id="st"><span>'+game.totalScore+'</span></div>';
 	document.getElementById('grisFonce').innerHTML = s;
 
 	var d1 = new rollroll.Dice('d1',1,'orange'),
@@ -96,7 +86,7 @@
 		if(!d1.selected && !d2.selected && !d3.selected){
 		  alert('Aucun dés séléctionné!');
 		  return;
-		}
+		}'+game.getCase(0,j++)+'
 		if(game.isRolling){
 		  alert('Les dés sont déja lancé!');
 		  return;
@@ -125,7 +115,7 @@
 			d3.selected && d3.set(parseInt(xt[2]));
 			val=0;
 			if(d1.selected){
-			  val=val+parseInt(xt[0]);
+			  val=val+parseInt(xt[0]); 
 			}
 			if(d2.selected){
 			  val=val+parseInt(xt[1]);
@@ -136,7 +126,7 @@
 		};
 		xhr.send(null); //on enverra les données de la partie (l'id de la grille par ex) ici
 		
-	}
+	};
 	
 	var placeDices = function( c, p){
 	    if(!game.isRolling){
@@ -156,8 +146,19 @@
 		    }
 		};
 		xhr.send('couleur='+c+'&position='+p); 
-	}
+	};
 	
+	var showPlayers = function(pseudos, actual){
+	      var st ="";
+	      for(var i=0; i<pseudos.length; i++){
+		if(i==actual){
+		  st+="<b>"+pseudos[i]+"</b><br />";
+		}else{
+		    st+=pseudos[i]+"<br />";
+		}
+	      }
+	      document.getElementById("listPlayers").innerHTML=st;
+	};
 	
 	</script>
 {% endblock %}

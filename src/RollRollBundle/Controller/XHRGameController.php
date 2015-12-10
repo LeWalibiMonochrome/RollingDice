@@ -247,7 +247,7 @@ class XHRGameController extends UserAwareController
 			default:
 				break;
 		}
-
+		return new Response($posi_orange.",".$posi_jaune.",".$posi_violet);
 		if($color != 0 && $posi_orange != -1 && $total == $grid->getCase(0,$posi_orange)) {
 			return new Response('Valeur déjà sur la colonne');
 		}

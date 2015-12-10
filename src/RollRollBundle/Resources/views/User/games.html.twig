@@ -37,7 +37,13 @@
 				</td>
 				<td style="text-align: center;">
 					{% if nbs == game.getNbPlayers() %}
-					<a href="{{ path('game',{'id':game.getId()}) }}">Jouer</a>
+					<a href="{{ path('game',{'id':game.getId()}) }}">
+						{% if game.getCurrentPlayer() is null %}
+							Scores
+						{% else %}
+							Jouer
+						{% endif %}
+					</a>
 					{% else %}
 						Attente de {{ game.getNbPlayers() - nbs }} joueur{% if game.getNbPlayers() - nbs > 1 %}s{% endif %}
 					{% endif %}
@@ -59,14 +65,34 @@
 			{% set nbs = users[game.getId()]|length %}
 			<tr>
 				<td>{{ game.getName() }}</td>
-				<td>
+				<td style="text-align: center;">
 					{{ nbs }}/{{ game.getNbPlayers() }}
 				</td>
 				<td style="text-align: center;">
+					{% if nbs < game.getNbPlayers() %}
 					<a href="{{ path('joinGame',{'id':game.getId()}) }}">Rejoindre</a>
+					{% else %}
+					Partie pleine
+					{% endif %}
 				</td>
 			</tr>
 			{% endif %}
 		{% endfor %}
 	</table>
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

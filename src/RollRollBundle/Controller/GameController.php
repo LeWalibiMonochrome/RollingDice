@@ -102,6 +102,10 @@ class GameController extends UserAwareController
         }
 
         if($o) {
+            $game->setCurrentPlayer(null);
+            $this->getDoctrine()->getManager()->persist($game);
+            $this->getDoctrine()->getManager()->flush();
+            
             usort($grids,function($a,$b) {
                 if($a->getScore() > $b->getScore()) {
                     return -1;

@@ -101,7 +101,17 @@ class GameController extends UserAwareController
         }
 
         if($o) {
-            return parent::renderPage('RollRollBundle:Default:scores.html.twig',array(
+            usort($grids,function($a,$b) {
+                if($a->getScore() > $b->getScore()) {
+                    return -1;
+                }
+                if($a->getScore() < $b->getScore()) {
+                    return 1;
+                }
+                return 0;
+            });
+
+            return parent::renderPage('RollRollBundle:User:scores.html.twig',array(
                 'game' => $game,
                 'grid' => $grid,
                 'users' => $grids
@@ -135,6 +145,12 @@ class GameController extends UserAwareController
 
         if(!$grid) {
             return new Response('Grille introuvable');
+        }
+
+        foreach ($grids as $k => $v) {
+            if($v->isComplete()) {
+                return new Response('fin'); 
+            }
         }
 
         return parent::renderPage('RollRollBundle:Default:players.txt.twig',array(

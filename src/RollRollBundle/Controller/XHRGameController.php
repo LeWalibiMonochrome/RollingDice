@@ -117,7 +117,7 @@ class XHRGameController extends UserAwareController
 		}
 
 		for($i = $position+1; $i < 9; $i++) {
-			if($grid->getCase($col,$i) <= $valeur) {
+			if($grid->getCase($col,$i) <= $valeur && $grid->getCase($col,$i) != 0) {
 				return false;
 			}
 		}

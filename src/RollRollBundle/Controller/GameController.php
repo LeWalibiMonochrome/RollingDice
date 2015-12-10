@@ -10,6 +10,7 @@ use RollRollBundle\Entity\Game;
 use RollRollBundle\Entity\Grid;
 use RollRollBundle\Form\CreateGameType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class GameController extends UserAwareController
 {
@@ -147,6 +148,7 @@ class GameController extends UserAwareController
             return new Response('Grille introuvable');
         }
 
+        $grids = $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findByGame($game);
         foreach ($grids as $k => $v) {
             if($v->isComplete()) {
                 return new Response('fin'); 
@@ -154,7 +156,7 @@ class GameController extends UserAwareController
         }
 
         return parent::renderPage('RollRollBundle:Default:players.txt.twig',array(
-            'users' => $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findByGame($game),
+            'users' => $grids,
             'game' => $game
         ));
     }

@@ -52,11 +52,15 @@ class XHRGameController extends UserAwareController
 		$val = $da + $db + $dc;
 
 		$ok = false;
+		$s = "valeur : ".$val.", des(".$des[0].",".$des[1].",".$des[2].")\n";
 		for($clr = 0; $clr < 3; $clr++) {
 			if($des[$clr]) {
 				for($i = 0; $i < 9; $i++) {
 					if($this->canPlace($clr, $grid, $val, $i)) {
 						$ok = true;
+						$s .= "canPlace(".$clr.",".$i.",".$val.") : true\n";
+					} else {
+						$s .= "canPlace(".$clr.",".$i.",".$val.") : false\n";
 					}
 				}
 			}
@@ -69,7 +73,10 @@ class XHRGameController extends UserAwareController
 
 			$this->nextPlayer($grid);
 			return new Response('x');
+			// return new Response($s);
 		}
+
+		
 
 		$grid->setLastDices($result);
 
@@ -167,7 +174,7 @@ class XHRGameController extends UserAwareController
 
 		for($i=0; $i <$position; $i++) {
 			if($grid->getCase($couleur,$i) >= $total){
-				return new Response('Il ya des valeurs plus grande avant : '.$i.' '.$grid->getCase($couleur,$i) );
+				return new Response('Il ya des valeurs plus grande avant');
 			}
 		}
 

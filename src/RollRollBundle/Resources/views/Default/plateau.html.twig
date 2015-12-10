@@ -79,6 +79,8 @@
 	}
 	s += '- <div class="carre" id="sm"><span>&nbsp;</span></div> = <div class="rectangle" id="st"><span>&nbsp;</span></div>';
 	document.getElementById('grisFonce').innerHTML = s;
+	
+	game.refreshScore();
 
 	var d1 = new rollroll.Dice('d1',1,'orange'),
 		d2 = new rollroll.Dice('d2',2,'yellow'),

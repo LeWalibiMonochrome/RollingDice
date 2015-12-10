@@ -15,7 +15,7 @@ var rollroll = rollroll || {};
   var p = Game.prototype;
 
   p.refreshScore = function(){
-    for(var i=0; i<missed; i++)
+    for(var i=0; i<this.missed; i++)
       document.getElementById("m"+i).innerHTML = "<span>X</span>";
     this.calculateScore();
     for(var i=0; i <3 /*cookies*/; i++)

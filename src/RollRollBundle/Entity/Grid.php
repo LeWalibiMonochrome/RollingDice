@@ -120,6 +120,38 @@ class Grid
         return $this->played;
     }
 
+    public function getCase($c,$i)
+    {
+        $sc = explode("--", $this->scoreSheet);
+        if(count($sc) != 3) {
+            $this->scoreSheet = "0-0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0-0":
+            return $this->getCase($c,$i);
+        }
+
+        $ligne = explode("-", $sc[$c]);
+        return $ligne[$i];
+    }
+
+
+    public function setCase($c,$i,$v)
+    {
+        $sc = explode("--", $this->scoreSheet);
+        if(count($sc) != 3) {
+            $this->scoreSheet = "0-0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0-0":
+            return $this->setCase($c,$i,$v);
+        }
+
+        $lignes = array(
+            explode("-",$sc[0]),
+            explode("-",$sc[1]),
+            explode("-",$sc[2])
+        );
+
+        $lignes[$c][$i] = $v;
+
+        $this->scoreSheet = implode("-", $lignes[0]).'--'.implode("-", $lignes[1]).'--'.implode("-", $lignes[2]);
+    }
+
     /**
      * Set playerOrder
      *

@@ -31,12 +31,12 @@ class XHRGameController extends UserAwareController
             return new Response("Ce n'est pas à votre tour de jouer! ");
         }
 
-        $da = 0;
-        $db = 0;
-        $dc = 0;
+        $da=0;
+        $db=0;
+        $dc=0;
 
-        if($a == 'y') {
-        	$da = rand(1,6);
+        if($a =='y'){
+        	$da=rand(1,6);
         }
         if($b == 'y') {
         	$db = rand(1,6);
@@ -72,6 +72,42 @@ class XHRGameController extends UserAwareController
             return new Response("Ce n'est pas à votre tour de jouer! ");
         }
 
-    	return new Response('ok');
+        $couleur = intval($_POST['c']);
+        $position = intval($_POST['p']);
+
+
+        $strings=$grid->getLastDices();
+        $tab_Dice =explode('/',$strings);
+
+        $total=intval($tab_Dice[0])+intval($tab_Dice[1])+intval($tab_Dice[2]);
+
+        if ($couleur == '0') {
+        	if(intval($tab_Dice[0])==0){
+        		return new Response('Impossible car le dé orange n est pas lancé');
+        	}
+        }
+
+        if ($couleur == '1') {
+        	if(intval($tab_Dice[1])==0){
+        		return new Response('Impossible car le dé jaune n est pas lancé');
+        	}
+        }
+
+        if ($couleur == '2') {
+        	if(intval($tab_Dice[2])==0){
+        		return new Response('Impossible car le dé violet n est pas lancé');
+        	}
+        }
+
+
+		for ($i=0; $i <$position; $i++) {
+    		if($grid->getCase($couleur,$i) >= $total){
+    			return new Response('Il ya des valeurs plus grande avant');
+    		}
+		}
+
+		$grid->setCase($couleur,$position,$total);
+
+    	return new Response($grid->getScoreSheet());
     }
 }

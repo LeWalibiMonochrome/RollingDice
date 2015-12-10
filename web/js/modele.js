@@ -2,7 +2,7 @@ var rollroll = rollroll || {};
 
 (function(rollroll){
   function Game(){
-    this.orange = [9,8,0,0,5,4,0,2,1];
+    this.orange = [0,0,0,0,0,0,0,0,0];
     this.jaune = [3,1,4,1,5,1,6,1,7];
     this.violet = [1,2,3,4,5,6,7,8,9];
     this.missed = 0;
@@ -13,6 +13,11 @@ var rollroll = rollroll || {};
   };
   
   var p = Game.prototype;
+
+  p.refreshScore = function(){
+    calculateScore();
+    
+  }
 
   p.calculateScore = function(){
     this.colorsScore[0] = 0; this.colorsScore[1] = 0; this.colorsScore[2] = 0;
@@ -34,20 +39,39 @@ var rollroll = rollroll || {};
 };
   
   p.getCase = function(color, position){
-  switch(color){
-  case 0:
-    if (this.orange[position] === 0) 
-      return "&nbsp;"
-    return this.orange[position];
-  case 1:
-    if (this.jaune[position] === 0) 
-      return "&nbsp;"
-    return this.jaune[position];
-  case 2:
-    if (this.violet[position] === 0) 
-      return "&nbsp;"
-    return this.violet[position];
-  }
+    switch(color){
+    case 0:
+      if (this.orange[position] === 0) 
+	return "&nbsp;"
+      return this.orange[position];
+    case 1:
+      if (this.jaune[position] === 0) 
+	return "&nbsp;"
+      return this.jaune[position];
+    case 2:
+      if (this.violet[position] === 0) 
+	return "&nbsp;"
+      return this.violet[position];
+    }
+  };
+  
+  p.setCase = function(color, position, valeur){
+    switch(color){
+    case 0:
+      this.orange[position] = valeur;
+      document.getElementById(""+color+position).outerHTML = this.orange[position];
+      break;
+    case 1:
+      this.jaune[position] = valeur;
+      document.getElementById(""+color+position).outerHTML = this.jaune[position];
+      break;
+    case 2:
+      this.violet[position] = valeur;
+      document.getElementById(""+color+position).outerHTML = this.violet[position];
+      break;
+    }
+    refreshScore();
   };  
+  
   rollroll.Game = Game;
 })(rollroll);

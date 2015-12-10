@@ -5,7 +5,7 @@
 	
 	<a href="{{ path('createGame') }}">Créer une partie</a>
 
-	<h3>Parties en cours</h3>
+	<h3>Mes parties</h3>
 	<style>
 	.ntable {
 		border-collapse: collapse;
@@ -13,24 +13,60 @@
 	}
 	.ntable td, .ntable th {
 		border: 1px solid black;
+		padding: 4px;
+	}
+	.ntable th {
+		text-align: center;
+		background: rgba(0,0,0,0.1);
 	}
 	</style>
+
 	<table class="ntable">
 		<tr>
-			<th>Nom</th>
-			<th>Joueurs</th>
+			<th style="width: 30%;">Nom</th>
+			<th style="width: 30%;">Joueurs</th>
 			<th>Actions</th>
 		</tr>
-	{% for game in games %}
-		<tr>
-			<td>{{ game.getGame().getName() }}</td>
-			<td>1/{{ game.getGame().getNbPlayers() }}</td>
-			<td>
-				<a href="{{ path('game',{'id':game.getId()}) }}">Jouer</a>
-			</td>
-		</tr>
-	{% endfor %}
+		{% for game in games %}
+			{% set nbs = users[game.getId()]|length %}
+			{% if user in users[game.getId()] %}
+			<tr>
+				<td>{{ game.getName() }}</td>
+				<td>
+					{{ nbs }}/{{ game.getNbPlayers() }}
+				</td>
+				<td style="text-align: center;">
+					{% if nbs == game.getNbPlayers() %}
+					<a href="{{ path('game',{'id':game.getId()}) }}">Jouer</a>
+					{% else %}
+						Attente de {{ game.getNbPlayers() - nbs }} joueur{% if game.getNbPlayers() - nbs > 1 %}s{% endif %}
+					{% endif %}
+				</td>
+			</tr>
+			{% endif %}
+		{% endfor %}
 	</table>
-	<h3>Anciennes parties</h3>
 
+	<h3>Autres parties</h3>
+	<table class="ntable">
+		<tr>
+			<th style="width: 30%;">Nom</th>
+			<th style="width: 30%;">Joueurs</th>
+			<th>Actions</th>
+		</tr>
+		{% for game in games %}
+			{% if user not in users[game.getId()] %}
+			{% set nbs = users[game.getId()]|length %}
+			<tr>
+				<td>{{ game.getName() }}</td>
+				<td>
+					{{ nbs }}/{{ game.getNbPlayers() }}
+				</td>
+				<td style="text-align: center;">
+					<a href="{{ path('joinGame',{'id':game.getId()}) }}">Rejoindre</a>
+				</td>
+			</tr>
+			{% endif %}
+		{% endfor %}
+	</table>
 {% endblock %}

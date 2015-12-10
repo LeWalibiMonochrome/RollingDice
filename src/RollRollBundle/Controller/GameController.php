@@ -18,23 +18,42 @@ class GameController extends UserAwareController
      */
     public function gamesAction()
     {
+        /*$g = $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findAll();
+        $o = $this->getDoctrine()->getRepository('RollRollBundle:Game')->findAll();
+        $m = $this->getDoctrine()->getManager();
+        foreach ($g as $key => $value) {
+            $m->remove($value);
+        }
+        foreach ($o as $key => $value) {
+            $m->remove($value);
+        }
+        $m->flush();*/
     	$user = parent::getUser();
 
     	if(!$user) {
-    		return $this->render('RollRollBundle:Default:error.html.twig',array(
+    		return parent::renderPage('RollRollBundle:Default:error.html.twig',array(
         		'titre'=> "Utilisateur inconnu",
         		'message'=> "Vous devez être connecté pour accéder à cette page"
         	));
     	}
 
         $users = array();
-        $games = $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findByOwner($user);
-        foreach ($variable as $key => $value) {
-            # code...
+        $games = $this->getDoctrine()->getRepository('RollRollBundle:Game')->findAll();
+        foreach ($games as $k => $v) {
+            $x = $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findByGame($v);
+            $a = array();
+
+            foreach ($x as $k2 => $v2) {
+                $a[] = $v2->getOwner();
+            }
+
+            $users[$v->getId()] = $a;
         }
 
         return parent::renderPage('RollRollBundle:User:games.html.twig',array(
-        	'games' => $games
+        	'games' => $games,
+            'users' => $users,
+            'user' => $user
         ));
     }
 
@@ -46,8 +65,58 @@ class GameController extends UserAwareController
     public function gameAction(Game $game)
     {
         return parent::renderPage('RollRollBundle:Default:plateau.html.twig',array(
-            'game' => $game
+            'game' => $game,
+            'users' => $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findByGame($game)
         ));
+    }
+
+    /**
+     * @Route("/joinGame/{id}", name="joinGame")
+     * @ParamConverter("game", options={"id": "id"})
+     */
+    public function joinGameAction(Game $game)
+    {
+        $user = parent::getUser();
+
+        if(!$user) {
+            return $this->render('RollRollBundle:Default:error.html.twig',array(
+                'titre'=> "Utilisateur inconnu",
+                'message'=> "Vous devez être connecté pour accéder à cette page"
+            ));
+        }
+
+        $egrid = $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findOneBy(array(
+            'game' => $game,
+            'owner' => $user
+        ));
+
+        if($egrid) {
+            return $this->render('RollRollBundle:Default:error.html.twig',array(
+                'titre'=> "Echec",
+                'message'=> "Vous participez déjà a cette partie"
+            ));
+        }
+
+        $pls = $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findNbPlayers($game);
+        
+        if($pls >= $game->getNbPlayers()) {
+            return $this->render('RollRollBundle:Default:error.html.twig',array(
+                'titre'=> "Echec",
+                'message'=> "Cette partie est déjà pleine !"
+            ));
+        }        
+
+        $grid = new Grid();
+        $grid->setScoreSheet('..');
+        $grid->setPlayed(0);
+        $grid->setOwner($user);
+        $grid->setGame($game);
+        $grid->setPlayerOrder($this->getDoctrine()->getRepository('RollRollBundle:Grid')->getMax($game)+1);
+
+        $this->getDoctrine()->getManager()->persist($grid);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirect($this->generateUrl('games'));
     }
 
     /**
@@ -58,7 +127,7 @@ class GameController extends UserAwareController
         $user = parent::getUser();
 
         if(!$user) {
-            return $this->render('RollRollBundle:Default:error.html.twig',array(
+            return parent::renderPage('RollRollBundle:Default:error.html.twig',array(
                 'titre'=> "Utilisateur inconnu",
                 'message'=> "Vous devez être connecté pour accéder à cette page"
             ));
@@ -74,7 +143,7 @@ class GameController extends UserAwareController
         $grid->setOwner($user);
         $grid->setGame($game);
         $grid->setPlayerOrder(1);
-        
+
         $form = $this->createForm(new CreateGameType(), $game, array(
             'action' => '',
             'method' => 'POST',
@@ -85,7 +154,7 @@ class GameController extends UserAwareController
             $this->getDoctrine()->getManager()->persist($grid);
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->render('RollRollBundle:Default:error.html.twig',array(
+            return parent::renderPage('RollRollBundle:Default:error.html.twig',array(
                 'titre'=> "Partie créée",
                 'message'=> "Partie ".$game->getName()." créée"
             ));

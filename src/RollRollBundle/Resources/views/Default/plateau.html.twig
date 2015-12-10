@@ -16,7 +16,7 @@
 	<br /><a href="#" onclick="rollDices();">Lancer</a>
 </div>
 <script type="text/javascript">
-	var game = new Game();
+	var game = new rollroll.Game();
 	
 	for(var p = 0, d = ['orange','jaune','violet'], s = ""; p < 3; p++) {
 		s = "";
@@ -56,6 +56,11 @@
 		d3 = new rollroll.Dice('d3',3,'#551A8B');
 
 	var rollDices = function() {
+		if(game.isRolling){
+		  alert('Les dés roulent déja!');
+		  return;
+		}
+		game.isRolling=true;
 		//Lancement de l'animation des dés
 		window.diceInt = setInterval(function(d1,d2,d3){
 			d1.selected && d1.set();
@@ -68,9 +73,9 @@
 		xhr.open('POST', "/xhr/gendices/"+(d1.selected?'y':'n')+"/"+(d2.selected?'y':'n')+"/"+(d3.selected?'y':'n'), true);
 		xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 		xhr.onload = function (e) {
+			game.isRolling=false;
 			clearInterval(window.diceInt);
 			var xt = xhr.responseText.split('/');
-			game.chooseDices(d1.selected, d2.selected, d3.selected);
 			console.log(xt);
 			d1.selected && d1.set(parseInt(xt[0]));
 			d2.selected && d2.set(parseInt(xt[1]));

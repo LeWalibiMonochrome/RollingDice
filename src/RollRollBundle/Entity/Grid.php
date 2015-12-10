@@ -47,6 +47,13 @@ class Grid
      */
     private $game;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="playerOrder", type="integer")
+     */
+    private $playerOrder;
+
 
     /**
      * Get id
@@ -104,6 +111,30 @@ class Grid
     public function getPlayed()
     {
         return $this->played;
+    }
+
+    /**
+     * Set playerOrder
+     *
+     * @param integer $playerOrder
+     *
+     * @return Grid
+     */
+    public function setPlayerOrder($playerOrder)
+    {
+        $this->playerOrder = $playerOrder;
+
+        return $this;
+    }
+
+    /**
+     * Get playerOrder
+     *
+     * @return int
+     */
+    public function getPlayerOrder()
+    {
+        return $this->playerOrder;
     }
 
     /**

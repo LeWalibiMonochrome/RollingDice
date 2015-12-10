@@ -133,6 +133,10 @@ class Grid
 
     public function getCase($c,$i)
     {
+        if($i < 0 || $i > 8 || $c < 0 || $c > 2) {
+            return 0;
+        }
+
         $sc = explode("--", $this->scoreSheet);
         if(count($sc) != 3) {
             $this->scoreSheet = "0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0";
@@ -146,6 +150,10 @@ class Grid
 
     public function setCase($c,$i,$v)
     {
+        if($i < 0 || $i > 8 || $c < 0 || $c > 2) {
+            return;
+        }
+        
         $sc = explode("--", $this->scoreSheet);
         if(count($sc) != 3) {
             $this->scoreSheet = "0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0";

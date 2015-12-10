@@ -14,11 +14,11 @@ use Symfony\Component\HttpFoundation\Request;
 class GameController extends UserAwareController
 {
     /**
-     * @Route("/games", name="games")
+     * @Route("/reset", name="reset")
      */
-    public function gamesAction()
+    public function resetAction()
     {
-        /*$g = $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findAll();
+        $g = $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findAll();
         $o = $this->getDoctrine()->getRepository('RollRollBundle:Game')->findAll();
         $m = $this->getDoctrine()->getManager();
         foreach ($g as $key => $value) {
@@ -27,8 +27,17 @@ class GameController extends UserAwareController
         foreach ($o as $key => $value) {
             $m->remove($value);
         }
-        $m->flush();*/
-    	$user = parent::getUser();
+        $m->flush();
+
+        return $this->gamesAction();
+    }
+
+    /**
+     * @Route("/games", name="games")
+     */
+    public function gamesAction()
+    {
+        $user = parent::getUser();
 
     	if(!$user) {
     		return parent::renderPage('RollRollBundle:Default:error.html.twig',array(

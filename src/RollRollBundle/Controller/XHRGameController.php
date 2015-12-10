@@ -76,6 +76,10 @@ class XHRGameController extends UserAwareController
 		$this->getDoctrine()->getManager()->persist($grid);
 		$this->getDoctrine()->getManager()->flush();
 
+		if($grid->isComplete()) {
+			return new Response('fin');	
+		}
+
 		return new Response($result);
 	}
 

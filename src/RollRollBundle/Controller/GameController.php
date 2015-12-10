@@ -92,10 +92,26 @@ class GameController extends UserAwareController
             ));
         }
 
+        $grids = $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findByGame($game);
+        $o = false;
+        foreach ($grids as $k => $v) {
+            if($v->isComplete()) {
+                $o = true;
+            }
+        }
+
+        if($o) {
+            return parent::renderPage('RollRollBundle:Default:scores.html.twig',array(
+                'game' => $game,
+                'grid' => $grid,
+                'users' => $grids
+            ));
+        }
+
         return parent::renderPage('RollRollBundle:Default:plateau.html.twig',array(
             'game' => $game,
             'grid' => $grid,
-            'users' => $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findByGame($game)
+            'users' => $grids
         ));
     }
 

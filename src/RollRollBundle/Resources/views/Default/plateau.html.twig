@@ -113,10 +113,12 @@
 			var xt = xhr.responseText.split('/');
 			if(xt.length !== 3) {
 			    if(xt== 'x') {
-			      alert('Valeur impossible à placer!');
-			      game.isRolling = false;
-			      game.addMiss();
-			    return;
+					alert('Valeur impossible à placer!');
+					game.isRolling = false;
+					game.addMiss();
+					return;
+			    } else if(xt== 'fin') {
+					location.reload();
 			    }
 			    alert(xhr.responseText);
 			    game.isRolling = false;

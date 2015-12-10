@@ -84,6 +84,31 @@ class Grid
         $this->missed++;
     }
 
+    public function isComplete()
+    {
+        $l = 0;
+        if($this->isLineFilled(0)) {
+            $l++;
+        }
+        if($this->isLineFilled(1)) {
+            $l++;
+        }
+        if($this->isLineFilled(2)) {
+            $l++;
+        }
+
+        //Deux lignes sont remplies
+        if($l >= 2) {
+            return true;
+        }
+
+        if($this->missed >= 4) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Set scoreSheet
      *

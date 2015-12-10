@@ -104,6 +104,7 @@ var rollroll = rollroll || {};
 
   p.addMiss = function(){
     this.missed++;
+    this.refreshScore();
   }
   
   p.prettify = function(value){
@@ -114,3 +115,13 @@ var rollroll = rollroll || {};
 
   rollroll.Game = Game;
 })(rollroll);
+
+
+
+
+
+
+
+
+
+

@@ -1,15 +1,16 @@
 var rollroll = rollroll || {};
 
 (function(rollroll){
-  function Game(){
-    this.orange = [0,0,0,0,0,0,0,0,0];
-    this.jaune = [0,0,0,0,0,0,0,0,0];
-    this.violet = [0,0,0,0,0,0,0,0,0];
+  function Game(orange, jaune, violet){
+    this.orange = orange || [0,0,0,0,0,0,0,0,0];
+    this.jaune = jaune || [0,0,0,0,0,0,0,0,0];
+    this.violet = violet || [0,0,0,0,0,0,0,0,0];
     this.missed = 0;
     this.colorsScore = [0, 0, 0]; // orange, jaune, violet
     this.pentagonScore = [0, 0, 0, 0, 0];
     this.totalScore = 0;
     this.isRolling = false;
+    
   };
   
   var p = Game.prototype;

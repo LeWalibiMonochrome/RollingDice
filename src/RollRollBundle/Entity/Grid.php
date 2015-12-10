@@ -66,7 +66,7 @@ class Grid
      *
      * @ORM\Column(name="missed", type="integer", options={"default": 0})
      */
-    private $missed;
+    private $missed = 0;
 
 
     /**

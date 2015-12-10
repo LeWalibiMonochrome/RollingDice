@@ -23,8 +23,6 @@ class XHRGameController extends UserAwareController
 
     public function gendicesAction($a,$b,$c,Grid $grid)
     {
-
-
         $user = parent::getUser();
         if(!$user) {
             return new Response("Vous devez être connecté !");
@@ -38,26 +36,26 @@ class XHRGameController extends UserAwareController
         }
 
 
-        $da=0;
-        $db=0;
-        $dc=0;
+        $da = 0;
+        $db = 0;
+        $dc = 0;
 
-        if($a =='y'){
-        	$da=rand(1,6)
+        if($a == 'y') {
+        	$da = rand(1,6);
         }
-        if($b =='y'){
-        	$db=rand(1,6);
+        if($b == 'y') {
+        	$db = rand(1,6);
         }
-        if($c =='y'){
-        	$dc=rand(1,6);
+        if($c == 'y') {
+        	$dc = rand(1,6);
         }
         $result=$da.'/'.$db.'/'.$dc;
 
 
         $grid->setLastDice($result);
 
-         $this->getDoctrine()->getManager()->persist($grid);
-       		$this->getDoctrine()->getManager()->flush();
+        $this->getDoctrine()->getManager()->persist($grid);
+       	$this->getDoctrine()->getManager()->flush();
 
     	return new Response($result);
     }

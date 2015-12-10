@@ -14,18 +14,20 @@ use RollRollBundle\Form\CreateGameType;
 class XHRGameController extends UserAwareController
 {
     /**
-     * @Route("/xhr/gendices/{a}/{b}/{c}", name="xhr_gendices", requirements={"a":"y|n","b":"y|n","c":"y|n"})
+     * @Route("/xhr/gendices/{id}/{a}/{b}/{c}", name="xhr_gendices", requirements={"a":"y|n","b":"y|n","c":"y|n"})
+     * @ParamConverter("grid", options={"id": "id"})
      */
-    public function gendicesAction()
+    public function gendicesAction(Grid $grid)
     {
     	return new Response(rand(1,6).'/'.rand(1,6).'/'.rand(1,6));
     }
 
 
-       /**
-     * @Route("/xhr/placeDices")
+    /**
+     * @Route("/xhr/{id}/placeDices")
+     * @ParamConverter("game", options={"id": "id"})
      */
-    public function placeDiceAction()
+    public function placeDiceAction(Grid $grid)
     {
     	return new Response('ok');
     }

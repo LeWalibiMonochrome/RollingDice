@@ -64,8 +64,28 @@ class GameController extends UserAwareController
      */
     public function gameAction(Game $game)
     {
+        $user = parent::getUser();
+        if(!$user) {
+            return $this->render('RollRollBundle:Default:error.html.twig',array(
+                'titre'=> "Utilisateur inconnu",
+                'message'=> "Vous devez être connecté pour accéder à cette page"
+            ));
+        }
+
+        $grid = $this->getDoctrine()->getRepository('RollRollBundle:Grid'))->findBy(array(
+            'user' => $user,
+            'game' => $game
+        ));
+        if(!$grid) {
+            return $this->render('RollRollBundle:Default:error.html.twig',array(
+                'titre'=> "Utilisateur inconnu",
+                'message'=> "Vous ne participez pas a cette partie !"
+            ));
+        }
+
         return parent::renderPage('RollRollBundle:Default:plateau.html.twig',array(
             'game' => $game,
+            'grid' => $grid
             'users' => $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findByGame($game)
         ));
     }

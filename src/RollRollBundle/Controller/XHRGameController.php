@@ -15,7 +15,7 @@ use RollRollBundle\Form\CreateGameType;
 class XHRGameController extends UserAwareController
 {
     /**
-     * @Route("/xhr/gendices/{id}/{a}/{b}/{c}", name="xhr_gendices", requirements={"a":"y|n","b":"y|n","c":"y|n"})
+     * @Route("/xhr/{id}/gendices/{a}/{b}/{c}", name="xhr_gendices", requirements={"a":"y|n","b":"y|n","c":"y|n"})
      * @ParamConverter("grid", options={"id": "id"})
      */
     public function gendicesAction(Grid $grid)

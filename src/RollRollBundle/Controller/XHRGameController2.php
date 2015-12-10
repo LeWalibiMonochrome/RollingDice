@@ -86,5 +86,7 @@ class XHRGameController2 extends UserAwareController
                 return false;
             }
         }
+
+        return true;
     }
 }

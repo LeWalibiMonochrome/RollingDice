@@ -32,7 +32,7 @@ var rollroll = rollroll || {};
 
     var max=0, nbr=0;
     for(var i=0; i<8; i++){
-      if (this.orange != 0){
+      if (this.orange[i] != 0){
 	max = Math.max(max, this.orange[i]);
         nbr++;
       }
@@ -42,7 +42,7 @@ var rollroll = rollroll || {};
 
     max=0; nbr=0;
     for(var i=0; i<8; i++){
-      if (this.jaune != 0){
+      if (this.jaune[i] != 0){
 	max = Math.max(max, this.jaune[i]);
         nbr++;
       }
@@ -51,8 +51,8 @@ var rollroll = rollroll || {};
     else  this.colorsScore[1] = nbr;
 
     max=0; nbr=0;
-    for(var i=0; i<9; i++){
-      if (this.violet != 0){
+    for(var i=0; i<8; i++){
+      if (this.violet[i] != 0){
 	max = Math.max(max, this.violet[i]);
         nbr++;
       }

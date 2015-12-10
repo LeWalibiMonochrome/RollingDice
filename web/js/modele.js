@@ -31,33 +31,33 @@ var rollroll = rollroll || {};
     }
 
     var max=0, nbr=0;
-    for(var i=0; i<8; i++){
+    for(var i=0; i<9; i++){
       if (this.orange[i] != 0){
 	max = Math.max(max, this.orange[i]);
         nbr++;
       }
     }
-    if (nbr == 8)  this.colorsScore[0] = max;
+    if (nbr == 9)  this.colorsScore[0] = max;
     else  this.colorsScore[0] = nbr;
 
     max=0; nbr=0;
-    for(var i=0; i<8; i++){
+    for(var i=0; i<9; i++){
       if (this.jaune[i] != 0){
 	max = Math.max(max, this.jaune[i]);
         nbr++;
       }
     }
-    if (nbr == 8)  this.colorsScore[1] = max;
+    if (nbr == 9)  this.colorsScore[1] = max;
     else  this.colorsScore[1] = nbr;
 
     max=0; nbr=0;
-    for(var i=0; i<8; i++){
+    for(var i=0; i<9; i++){
       if (this.violet[i] != 0){
 	max = Math.max(max, this.violet[i]);
         nbr++;
       }
     }
-    if (nbr == 8)  this.colorsScore[2] = max;
+    if (nbr == 9)  this.colorsScore[2] = max;
     else  this.colorsScore[2] = nbr;
 
     if (this.orange[0] !== 0 && this.jaune[1] !== 0) this.pentagonScore[0] = this.violet[2];
@@ -105,6 +105,10 @@ var rollroll = rollroll || {};
     }
     this.refreshScore();
   };  
+
+  p.addMiss = function(){
+    document.getElementById("m"+this.missed++).innerHTML = "<span>X</span>";
+  }
   
   p.prettify = function(value){
     if (value == 0) 

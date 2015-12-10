@@ -75,17 +75,11 @@ var rollroll = rollroll || {};
   p.getCase = function(color, position){
     switch(color){
     case 0:
-      if (this.orange[position] === 0) 
-	return "&nbsp;"
-      return this.orange[position];
+      return this.prettify(this.orange[position]);
     case 1:
-      if (this.jaune[position] === 0) 
-	return "&nbsp;"
-      return this.jaune[position];
+      return this.prettify(this.jaune[position]);
     case 2:
-      if (this.violet[position] === 0) 
-	return "&nbsp;"
-      return this.violet[position];
+      return this.prettify(this.violet[position]);
     }
   };
   

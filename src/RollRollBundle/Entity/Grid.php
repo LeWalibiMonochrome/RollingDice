@@ -181,7 +181,7 @@ class Grid
         }
 
         $ligne = explode("-", $sc[$c]);
-        return $ligne[$i];
+        return intVal($ligne[$i]);
     }
 
     private function isLineFilled($line)

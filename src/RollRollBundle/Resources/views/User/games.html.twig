@@ -72,7 +72,11 @@
 					{% if nbs < game.getNbPlayers() %}
 					<a href="{{ path('joinGame',{'id':game.getId()}) }}">Rejoindre</a>
 					{% else %}
-					Partie pleine
+						{% if game.getCurrentPlayer() is null %}
+							<a href="{{ path('game',{'id':game.getId()}) }}">Scores</a>
+						{% else %}
+							Partie pleine
+						{% endif %}
 					{% endif %}
 				</td>
 			</tr>

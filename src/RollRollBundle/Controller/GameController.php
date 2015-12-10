@@ -86,12 +86,6 @@ class GameController extends UserAwareController
             'owner' => $user,
             'game' => $game
         ));
-        if(!$grid) {
-            return $this->render('RollRollBundle:Default:error.html.twig',array(
-                'titre'=> "Utilisateur inconnu",
-                'message'=> "Vous ne participez pas a cette partie !"
-            ));
-        }
 
         $grids = $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findByGame($game);
         $o = false;
@@ -101,11 +95,18 @@ class GameController extends UserAwareController
             }
         }
 
+        if(!$grid && !$o) {
+            return $this->render('RollRollBundle:Default:error.html.twig',array(
+                'titre'=> "Utilisateur inconnu",
+                'message'=> "Vous ne participez pas a cette partie !"
+            ));
+        }
+
         if($o) {
             $game->setCurrentPlayer(null);
             $this->getDoctrine()->getManager()->persist($game);
             $this->getDoctrine()->getManager()->flush();
-            
+
             usort($grids,function($a,$b) {
                 if($a->getScore() > $b->getScore()) {
                     return -1;

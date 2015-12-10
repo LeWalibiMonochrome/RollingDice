@@ -20,4 +20,13 @@ class XHRGameController extends UserAwareController
     {
     	return new Response(rand(1,6).'/'.rand(1,6).'/'.rand(1,6));
     }
+
+
+       /**
+     * @Route("/xhr/placeDices")
+     */
+    public function placeDiceAction()
+    {
+    	return new Response('ok');
+    }
 }

@@ -108,7 +108,7 @@
 		//Envoi d'une requête pour demander 3 dés
 		var xhr = new XMLHttpRequest();
 		
-		xhr.open('POST', "/xhr/"+pid+"gendices/"+(d1.selected?'y':'n')+"/"+(d2.selected?'y':'n')+"/"+(d3.selected?'y':'n'), true);
+		xhr.open('POST', "/xhr/"+pid+"/gendices/"+(d1.selected?'y':'n')+"/"+(d2.selected?'y':'n')+"/"+(d3.selected?'y':'n'), true);
 		xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 		xhr.onload = function (e) {
 			clearInterval(window.diceInt);
@@ -135,7 +135,10 @@
 	}
 	
 	var placeDices = function( c, p){
-	      
+	    if(!game.isRolling){
+	      alert('Vous devez lancer les dés');
+	      return
+	    }
 	    var xhr = new XMLHttpRequest();
 		xhr.open('POST', "/xhr/"+pid+"/placeDices", true);
 		xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');

@@ -15,13 +15,13 @@ var rollroll = rollroll || {};
   var p = Game.prototype;
 
   p.refreshScore = function(){
-    calculateScore();
+    this.calculateScore();
     for(var i=0; i <3 /*cookies*/; i++)
-      document.getElementById("sc"+i).innerHTML = "<span>"+prettify(this.colorsScore[i])+"</span>";
+      document.getElementById("sc"+i).innerHTML = "<span>"+this.prettify(this.colorsScore[i])+"</span>";
     for(var i=0; i<5; i++)
-      document.getElementById("sp"+i).innerHTML = "<span>"+prettify(this.pentagonScore[i])+"</span>";
-    document.getElementById("sm").innerHTML = "<span>"+prettify(this.missed * 5)+"</span>";    
-    document.getElementById("st").innerHTML = "<span>"+prettify(this.totalScore)+"</span>";
+      document.getElementById("sp"+i).innerHTML = "<span>"+this.prettify(this.pentagonScore[i])+"</span>";
+    document.getElementById("sm").innerHTML = "<span>"+this.prettify(this.missed * 5)+"</span>";    
+    document.getElementById("st").innerHTML = "<span>"+this.prettify(this.totalScore)+"</span>";
   }
 
   p.calculateScore = function(){
@@ -103,7 +103,7 @@ var rollroll = rollroll || {};
       document.getElementById("v"+position).innerHTML = "<span>"+this.violet[position]+"</span>";
       break;
     }
-    refreshScore();
+    this.refreshScore();
   };  
   
   p.prettify = function(value){

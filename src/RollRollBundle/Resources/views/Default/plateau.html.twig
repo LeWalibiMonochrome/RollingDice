@@ -90,7 +90,7 @@
 		if(!d1.selected && !d2.selected && !d3.selected){
 		  alert('Aucun dés séléctionné!');
 		  return;
-		}'+game.getCase(0,j++)+'
+		}
 		if(game.isRolling){
 		  alert('Les dés sont déja lancé!');
 		  return;
@@ -112,12 +112,13 @@
 			clearInterval(window.diceInt);
 			var xt = xhr.responseText.split('/');
 			if(xt.length !== 3) {
-			    alert(xhr.responseText);
-			    game.isRolling = false;
+			    if(xt== 'x') {
+			      alert('Valeur impossible à placer!');
+			      game.isRolling = false;
+			      game.addMiss();
 			    return;
-			}
-			if(xt== 'x') {
-			    alert('Valeur impossible à placer!');
+			    }
+			    alert(xhr.responseText);
 			    game.isRolling = false;
 			    return;
 			}

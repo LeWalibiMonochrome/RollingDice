@@ -37,11 +37,9 @@
 	  if(i == 3) {
 	    s += '<div class="vide">&nbsp;</div>';
 	  }else if(i == 1 || i == 5){
-	    s += '<div class="pentagon" id="1'+j+'" onclik="placeDices(1,j);"><span>'+game.getCase(p,j++)+'</span></div>';
-	    j=j+1;
+	    s += '<div class="pentagon" id="1'+j+'" onclik="placeDices(1,'+j+');"><span>'+game.getCase(0,j++)+'</span></div>';
 	  } else {
-	    s += '<div class="rond" id="1'+j+'" onclik="placeDices(1,j);"><span>'+game.getCase(p,j++)+'</span></div>';
-	    j=j+1;
+	    s += '<div class="rond" id="1'+j+'" onclik="placeDices(1,'+j+');"><span>'+game.getCase(0,j++)+'</span></div>';
 	  }
 	}
 	document.getElementById('orange').innerHTML = s;
@@ -50,11 +48,9 @@
 	  if(i == 5) {
 	    s += '<div class="vide">&nbsp;</div>';
 	  }else if(i == 7){
-	    s += '<div class="pentagon" id="2'+j+'" onclik="placeDices(2,j);"><span>'+game.getCase(p,j++)+'</span></div>';
-	    j=j+1;
+	    s += '<div class="pentagon" id="2'+j+'" onclik="placeDices(2,'+j+');"><span>'+game.getCase(1,j++)+'</span></div>';
 	  } else {
-	    s += '<div class="rond" id="2'+j+'" onclik="placeDices(2,j);"><span>'+game.getCase(p,j++)+'</span></div>';
-	    j=j+1;
+	    s += '<div class="rond" id="2'+j+'" onclik="placeDices(2,'+j+');"><span>'+game.getCase(1,j++)+'</span></div>';
 	  }
 	}
 	document.getElementById('jaune').innerHTML = s;
@@ -63,11 +59,9 @@
 	  if(i == 4) {
 	    s += '<div class="vide">&nbsp;</div>';
 	  }else if(i == 2 || i == 9){
-	    s += '<div class="pentagon" id="3'+j+'" onclik="placeDices(3,j);"><span>'+game.getCase(p,j++)+'</span></div>';
-	    j=j+1;
+	    s += '<div class="pentagon" id="3'+j+'" onclik="placeDices(3,'+j+');"><span>'+game.getCase(2,j++)+'</span></div>';
 	  } else {
-	    s += '<div class="rond" id="3'+j+'" onclik="placeDices(3,j);"><span>'+game.getCase(p,j++)+'</span></div>';
-	    j=j+1;
+	    s += '<div class="rond" id="3'+j+'" onclik="placeDices(3,'+j+');"><span>'+game.getCase(2,j++)+'</span></div>';
 	  }
 	}
 	document.getElementById('violet').innerHTML = s;

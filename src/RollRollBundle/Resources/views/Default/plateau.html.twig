@@ -9,7 +9,7 @@
 	<div id="violet"> </div>
 	<div id="grisClair"></div>
 	<div id="grisFonce"></div>
-  
+  	<br />
 	<div class="dice" id="d1" onclick="d1.select();"> </div>
 	<div class="dice" id="d2" onclick="d2.select();"> </div>
 	<div class="dice" id="d3" onclick="d3.select();"> </div>
@@ -160,20 +160,62 @@
 		xhr.send('couleur='+c+'&position='+p); 
 	};
 	
-	var showPlayers = function(pseudos, actual){
-		var st ="";
+	var showPlayers = function(pseudos, actual, scores){
+		var st ="<table><tr><th>Joueur</th><th>Points</th></tr>";
 		for(var i=0; i<pseudos.length; i++){
-			if(i==actual) {
-				st+="<strong>" + pseudos[i] + "</strong><br />";
-			}else {
-				st+=pseudos[i]+"<br />";
-			}
+			st+="<tr><td"+(i==actual?" class='active'":"")+">"+pseudos[i]+"</td><td"+(i==actual?" class='active'":"")+" style='text-align: center;'>"+scores[i]+"</th></tr>";
 		}
-	     document.getElementById("listPlayers").innerHTML=st;
+	     document.getElementById("listPlayers").innerHTML=st+"</table>";
 	};
 	
 	showPlayers([
 		{% for gs in users %}'{{ gs.getOwner().getPseudo() }}',{% endfor %}
-	],0);
+	],0,[
+		{% for gs in users %}{{ gs.getScore() }},{% endfor %}
+	]);
+
+
+	setInterval(function(){
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', "/xhr/"+pid+"/getUsers", true);
+		xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+		xhr.onload = function (e) {
+		    var xt = xhr.responseText.split('|||');
+		    var pseudos = [], current = 0, scores = [];
+		    for(var i=0,j=xt.length;i<j;i++) {
+		    	var tp = xt[i].split('===');
+		    	if(tp.length === 3) {
+		    		pseudos.push(tp[0]);
+		    		scores.push(parseInt(tp[1]));
+		    		if(tp[2] == '1') {
+		    			current = i;
+		    		}
+		    	}
+		    }
+		    showPlayers(pseudos,current,scores);
+		};
+		xhr.send(null); 
+	},2000);
 	</script>
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

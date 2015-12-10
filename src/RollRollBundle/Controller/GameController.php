@@ -100,6 +100,34 @@ class GameController extends UserAwareController
     }
 
     /**
+     * @Route("/xhr/{id}/getUsers")
+     * @ParamConverter("grid", options={"id": "id"})
+     *
+     */
+    public function gameUsersAction(Grid $grid)
+    {
+        $user = parent::getUser();
+        $game = $grid->getGame();
+        if(!$user) {
+            return new Response('Vous n\'êtes plus connecté');
+        }
+
+        $grid = $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findOneBy(array(
+            'owner' => $user,
+            'game' => $game
+        ));
+
+        if(!$grid) {
+            return new Response('Grille introuvable');
+        }
+
+        return parent::renderPage('RollRollBundle:Default:players.txt.twig',array(
+            'users' => $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findByGame($game),
+            'game' => $game
+        ));
+    }
+
+    /**
      * @Route("/joinGame/{id}", name="joinGame")
      * @ParamConverter("game", options={"id": "id"})
      */

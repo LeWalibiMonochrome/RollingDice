@@ -159,6 +159,63 @@ class Grid
         return $ligne[$i];
     }
 
+    private function isLineFilled($line)
+    {
+        for($i = 0; $i < 9; $i++) {
+            if($this->getCase($line,$i) == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private function getLineScore($line) {
+        if($this->isLineFilled($line)) {
+            $t = 0;
+            for($i = 0; $i < 9; $i++) {
+                if($this->getCase($line,$i) > $t) {
+                    $t = $this->getCase($line,$i);
+                }
+            }
+            return $t;
+        } else {
+            $t = 0;
+            for($i = 0; $i < 9; $i++) {
+                if($this->getCase($line,$i) != 0) {
+                    $t++;
+                }
+            }
+            return $t;
+        }
+    }
+
+    public function getScore()
+    {
+        $score = $this->getLineScore(0)+$this->getLineScore(1)+$this->getLineScore(2)-5*$this->getMissed();
+
+        if($this->getCase(0,0) != 0 && $this->getCase(1,1) != 0 && $this->getCase(2,2) != 0) {
+            $score += $this->getCase(2,2);
+        }
+
+        if($this->getCase(0,1) != 0 && $this->getCase(1,2) != 0 && $this->getCase(2,3) != 0) {
+            $score += $this->getCase(0,1);
+        }
+
+        if($this->getCase(0,4) != 0 && $this->getCase(1,5) != 0 && $this->getCase(2,6) != 0) {
+            $score += $this->getCase(0,4);
+        }
+
+        if($this->getCase(0,5) != 0 && $this->getCase(1,6) != 0 && $this->getCase(2,7) != 0) {
+            $score += $this->getCase(1,6);
+        }
+
+        if($this->getCase(0,6) != 0 && $this->getCase(1,7) != 0 && $this->getCase(2,8) != 0) {
+            $score += $this->getCase(2,8);
+        }
+
+        return $score;
+    }
+
 
     public function setCase($c,$i,$v)
     {

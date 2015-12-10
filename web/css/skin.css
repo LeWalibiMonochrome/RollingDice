@@ -33,3 +33,46 @@ html {
 	text-align: left;
 	width: 90%;
 }
+#listPlayers {
+	display: block;
+	position: fixed;
+	top: 70px;
+	right: 20px;
+	width: 200px;
+}
+#listPlayers table {
+	width: 100%;
+	border-collapse: collapse;
+	border: 0;
+	border: 1px solid black;
+}
+#listPlayers td, #listPlayers th {
+	border: 0;
+	background: rgba(0,0,0,0.1);
+	padding: 4px;
+}
+#listPlayers th {
+	background: rgba(0,0,0,0.2);
+	text-align: center;
+}
+#listPlayers .active {
+	background: rgba(255,255,0,0.3);
+	font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

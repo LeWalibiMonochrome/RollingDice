@@ -34,15 +34,18 @@ class XHRGameController extends UserAwareController
         $da=0;
         $db=0;
         $dc=0;
-
+        $des = array( false, false, false );
         if($a =='y'){
             $da=rand(1,6);
+            $des[0] = true;
         }
         if($b == 'y') {
             $db = rand(1,6);
+            $des[1] = true;
         }
         if($c == 'y') {
             $dc = rand(1,6);
+            $des[2] = true;
         }
         $result=$da.'/'.$db.'/'.$dc;
 
@@ -50,9 +53,11 @@ class XHRGameController extends UserAwareController
 
         $ok = false;
         for($clr = 0; $clr < 3; $clr++) {
-            for($i = 0; $i < 9; $i++) {
-                if($this->canPlace($clr, $grid, $val, $i)) {
-                    $ok = true;
+            if($des[$clr]) {
+                for($i = 0; $i < 9; $i++) {
+                    if($this->canPlace($clr, $grid, $val, $i)) {
+                        $ok = true;
+                    }
                 }
             }
         }
@@ -102,13 +107,13 @@ class XHRGameController extends UserAwareController
         }
 
         for($i = 0; $i < $position; $i++) {
-            if($grid->getCase($col,$i) > $valeur) {
+            if($grid->getCase($col,$i) >= $valeur) {
                 return false;
             }
         }
 
         for($i = $position+1; $i < 9; $i++) {
-            if($grid->getCase($col,$i) < $valeur) {
+            if($grid->getCase($col,$i) <= $valeur) {
                 return false;
             }
         }

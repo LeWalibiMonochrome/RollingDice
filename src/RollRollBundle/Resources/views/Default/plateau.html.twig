@@ -21,7 +21,7 @@
 	var game = new rollroll.Game();
 	var s = "", pid = {{ grid.getId() }};
 	val = 0;
-	showPlayers(['Nico','Yann'],0);
+	
 	
 	for(var i=0, j=0; i<10; i++){
 	  if(i == 3) {
@@ -109,6 +109,8 @@
 			var xt = xhr.responseText.split('/');
 			if(xt.length !== 3) {
 			    alert(xhr.responseText);
+			    game.isRolling = false;
+			    return;
 			}
 			d1.selected && d1.set(parseInt(xt[0]));
 			d2.selected && d2.set(parseInt(xt[1]));
@@ -149,16 +151,19 @@
 	};
 	
 	var showPlayers = function(pseudos, actual){
-	      var st ="";
-	      for(var i=0; i<pseudos.length; i++){
-		if(i==actual){
-		  st+="<b>"+pseudos[i]+"</b><br />";
-		}else{
-		    st+=pseudos[i]+"<br />";
+		var st ="";
+		for(var i=0; i<pseudos.length; i++){
+			if(i==actual) {
+				st+="<strong>" + pseudos[i] + "</strong><br />";
+			}else {
+				st+=pseudos[i]+"<br />";
+			}
 		}
-	      }
-	      document.getElementById("listPlayers").innerHTML=st;
+	     document.getElementById("listPlayers").innerHTML=st;
 	};
 	
+	showPlayers([
+		{% for gs in users %}'{{ gs.getOwner().getPseudo() }}',{% endfor %}
+	],0);
 	</script>
 {% endblock %}

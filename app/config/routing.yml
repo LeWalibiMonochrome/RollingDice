@@ -1,3 +1,8 @@
+roll_roll:
+    resource: "@RollRollBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 app:
-    resource: "@AppBundle/Controller/"
+    resource: "@RollRollBundle/Controller/"
     type:     annotation

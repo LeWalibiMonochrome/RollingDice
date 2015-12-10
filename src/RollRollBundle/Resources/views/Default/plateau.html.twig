@@ -17,8 +17,9 @@
 </div>
 <script type="text/javascript">
 	var game = new rollroll.Game();
+	var val = 0;
 	
-	for(var p = 0, d = ['orange','jaune','violet'], s = ""; p < 3; p++) {
+	/*for(var p = 0, d = ['orange','jaune','violet'], s = ""; p < 3; p++) {
 		s = "";
 		for(var i = 0, j = 0; i < 10; i++) {
 			if(i == 3) {
@@ -30,7 +31,46 @@
 			}
 		}
 		document.getElementById(d[p]).innerHTML = s;
+	}*/
+	
+	for(var i=0, j=0; i<10; i++){
+	  if(i == 3) {
+	    s += '<div class="vide">&nbsp;</div>';
+	  }else if(i == 1 || i == 5){
+	    s += '<div class="pentagon" id="1'+j+'" onclik="placeDices(1,j);"><span>'+game.getCase(p,j++)+'</span></div>';
+	    j=j+1;
+	  } else {
+	    s += '<div class="rond" id="1'+j+'" onclik="placeDices(1,j);"><span>'+game.getCase(p,j++)+'</span></div>';
+	    j=j+1;
+	  }
 	}
+	document.getElementById('orange').innerHTML = s;
+	
+	for(var i=0, j=0; i<10; i++){
+	  if(i == 5) {
+	    s += '<div class="vide">&nbsp;</div>';
+	  }else if(i == 7){
+	    s += '<div class="pentagon" id="2'+j+'" onclik="placeDices(2,j);"><span>'+game.getCase(p,j++)+'</span></div>';
+	    j=j+1;
+	  } else {
+	    s += '<div class="rond" id="2'+j+'" onclik="placeDices(2,j);"><span>'+game.getCase(p,j++)+'</span></div>';
+	    j=j+1;
+	  }
+	}
+	document.getElementById('jaune').innerHTML = s;
+	
+	for(var i=0, j=0; i<10; i++){
+	  if(i == 4) {
+	    s += '<div class="vide">&nbsp;</div>';
+	  }else if(i == 2 || i == 9){
+	    s += '<div class="pentagon" id="3'+j+'" onclik="placeDices(3,j);"><span>'+game.getCase(p,j++)+'</span></div>';
+	    j=j+1;
+	  } else {
+	    s += '<div class="rond" id="3'+j+'" onclik="placeDices(3,j);"><span>'+game.getCase(p,j++)+'</span></div>';
+	    j=j+1;
+	  }
+	}
+	document.getElementById('violet').innerHTML = s;
 
 	var s = '<div class="premierCarre"><span>'+'X'+'</span></div>';
 	for(var i = 1; i < 4; i++) {
@@ -57,7 +97,7 @@
 
 	var rollDices = function() {
 		if(game.isRolling){
-		  alert('Les dés roulent déja!');
+		  alert('Les dés sont déja lancé!');
 		  return;
 		}
 		game.isRolling=true;
@@ -73,15 +113,44 @@
 		xhr.open('POST', "/xhr/gendices/"+(d1.selected?'y':'n')+"/"+(d2.selected?'y':'n')+"/"+(d3.selected?'y':'n'), true);
 		xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 		xhr.onload = function (e) {
-			game.isRolling=false;
 			clearInterval(window.diceInt);
 			var xt = xhr.responseText.split('/');
 			console.log(xt);
 			d1.selected && d1.set(parseInt(xt[0]));
 			d2.selected && d2.set(parseInt(xt[1]));
 			d3.selected && d3.set(parseInt(xt[2]));
+			val=0;
+			if(d1.selected){
+			  val=val+parseInt(xt[0]);
+			}
+			if(d2.selected){
+			  val=val+parseInt(xt[1]);
+			}
+			if(d3.selected){
+			  val=val+parseInt(xt[2]);
+			}
 		};
 		xhr.send(null); //on enverra les données de la partie (l'id de la grille par ex) ici
+		
 	}
+	
+	var placeDices = function( c, p){
+	      
+	    var xhr = new XMLHttpRequest();
+		xhr.open('POST', "/xhr/placeDices", true);
+		xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+		xhr.onload = function (e) {
+		    var xt = xhr.responseText;
+		    if(xt=="ok"){
+		      game.isRolling=false;
+		      game.setCase(c,p,v);
+		    }else{
+		      alert(xt);
+		    }
+		};
+		xhr.send('couleur='+c+'&position='+p); 
+	}
+	
+	
 	</script>
 {% endblock %}

@@ -15,6 +15,8 @@ var rollroll = rollroll || {};
   var p = Game.prototype;
 
   p.refreshScore = function(){
+    for(var i=0; i<missed; i++)
+      document.getElementById("m"+i).innerHTML = "<span>X</span>";
     this.calculateScore();
     for(var i=0; i <3 /*cookies*/; i++)
       document.getElementById("sc"+i).innerHTML = "<span>"+this.prettify(this.colorsScore[i])+"</span>";
@@ -101,7 +103,7 @@ var rollroll = rollroll || {};
   };  
 
   p.addMiss = function(){
-    document.getElementById("m"+this.missed++).innerHTML = "<span>X</span>";
+    this.missed++;
   }
   
   p.prettify = function(value){

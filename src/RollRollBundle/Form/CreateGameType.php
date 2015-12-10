@@ -12,11 +12,11 @@ class CreateGameType extends AbstractType
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder
-      ->add('nbPlayers','number',array(
-      		'label' => 'Nombre de joueurs'
-      ))
       ->add('name','text',array(
       		'label' => 'Nom de la partie'
+      ))
+      ->add('nbPlayers','number',array(
+      		'label' => 'Nombre de joueurs'
       ))
       ->add('create','submit',array(
       		'label' => 'Créer'

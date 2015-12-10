@@ -10,4 +10,21 @@ namespace RollRollBundle\Repository;
  */
 class GridRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function getMax($game)
+	{
+		return $this->getEntityManager()->createQuery('
+			SELECT max(a.playerOrder)
+			FROM RollRollBundle:Grid a
+			WHERE a.game = :game
+		')->setParameter('game',$game)->getSingleScalarResult();
+	}
+
+	public function findNbPlayers($game)
+	{
+		return $this->getEntityManager()->createQuery('
+			SELECT count(a)
+			FROM RollRollBundle:Grid a
+			WHERE a.game = :game
+		')->setParameter('game',$game)->getSingleScalarResult();
+	}
 }

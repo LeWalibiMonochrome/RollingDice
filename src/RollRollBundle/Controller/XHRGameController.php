@@ -4,6 +4,7 @@ namespace RollRollBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,6 +20,14 @@ class XHRGameController extends UserAwareController
      */
     public function gendicesAction(Grid $grid)
     {
+        $user = parent::getUser();
+        if(!$user) {
+            return new Response("Vous devez être connecté !");
+        }
+        if($user != $grid) {
+            return new Response("Vous ne participez pas a cette partie !");
+        }
+
     	return new Response(rand(1,6).'/'.rand(1,6).'/'.rand(1,6));
     }
 
@@ -29,6 +38,14 @@ class XHRGameController extends UserAwareController
      */
     public function placeDiceAction(Grid $grid)
     {
+        $user = parent::getUser();
+        if(!$user) {
+            return new Response("Vous devez être connecté !");
+        }
+        if($user != $grid) {
+            return new Response("Vous ne participez pas a cette partie !");
+        }
+
     	return new Response('ok');
     }
 }

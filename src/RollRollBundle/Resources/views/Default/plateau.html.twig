@@ -19,7 +19,7 @@
 </div>
 <script type="text/javascript">
 	var game = new rollroll.Game(
-		[{{ grid.getCases(0) }}], [{{ grid.getCases(1) }}], [{{ grid.getCases(2) }}]
+		[{{ grid.getCases(0) }}], [{{ grid.getCases(1) }}], [{{ grid.getCases(2) }}], {{ grid.getMissed() }}
 	);
 	var s = "", pid = {{ grid.getId() }};
 	val = 0;

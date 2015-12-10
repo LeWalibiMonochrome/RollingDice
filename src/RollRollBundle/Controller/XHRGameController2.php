@@ -58,6 +58,11 @@ class XHRGameController2 extends UserAwareController
         }
 
         if(!$ok) {
+            $grid->miss();
+            $this->getDoctrine()->getManager()->persist($grid);
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->nextPlayer($grid);
             return new Response('x');
         }
 
@@ -67,6 +72,27 @@ class XHRGameController2 extends UserAwareController
        	$this->getDoctrine()->getManager()->flush();
 
     	return new Response($result);
+    }
+
+    private function nextPlayer(Grid $grid)
+    {
+        $nb = $grid->getPlayerOrder()+1;
+
+        if($grid->getPlayerOrder() == $grid->getGame()->getNbPlayers()) {
+            $nb = 1;
+        }
+
+        $nextGrid = $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findOneBy(array(
+            'game' => $grid->getGame(),
+            'playerOrder' => $nb
+        ));
+
+        if($nextGrid) {
+            $g = $grid->getGame();
+            $g->setCurrentPlayer($nextGrid->getOwner());
+            $this->getDoctrine()->getManager()->persist($g);
+            $this->getDoctrine()->getManager()->flush();
+        }
     }
 
     private function canPlace($col, Grid $grid, $valeur, $position)

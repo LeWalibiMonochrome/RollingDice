@@ -14,6 +14,7 @@ use RollRollBundle\Form\CreateGameType;
 
 class XHRGameController extends UserAwareController
 {
+
     /**
      * @Route("/xhr/{id}/placeDices")
      * @ParamConverter("game", options={"id": "id"})
@@ -68,6 +69,26 @@ class XHRGameController extends UserAwareController
 
         if($grid->getCase($couleur,$position) != 0) {
             return new Response('Cette case est déjà remplie');
+        }
+
+        $posi_orange=0;
+        $posi_jaune=0;
+        $posi_violet=0;
+
+        $colonne=0;
+
+        if($couleur==0){
+        	$colonne=$position+2;
+        	if($colonne==7){
+        		$posi_jaune
+        	}
+        	$grid->getCase(1,$colonne)
+        }
+        if($couleur==1){
+        	$colonne=$position+1;
+        }
+        if($couleur==2){
+        	$colonne=$position;
         }
 
 		$grid->setCase($couleur,$position,$total);

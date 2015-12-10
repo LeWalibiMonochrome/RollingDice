@@ -10,7 +10,6 @@ var rollroll = rollroll || {};
     this.pentagonScore = [0, 0, 0, 0, 0];
     this.totalScore = 0;
     this.isRolling = false;
-    this.refreshScore();
   };
   
   var p = Game.prototype;

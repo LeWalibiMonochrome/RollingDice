@@ -72,42 +72,49 @@ class XHRGameController extends UserAwareController
             return new Response("Ce n'est pas à votre tour de jouer! ");
         }
 
-        $couleur = intval($_POST['c']);
-        $position = intval($_POST['p']);
+        $couleur = intval($_POST['couleur']);
+        $position = intval($_POST['position']);
 
+        $tab_Dice = explode('/', $grid->getLastDices());
+        $total = intval($tab_Dice[0])+intval($tab_Dice[1])+intval($tab_Dice[2]);
 
-        $strings=$grid->getLastDices();
-        $tab_Dice =explode('/',$strings);
-
-        $total=intval($tab_Dice[0])+intval($tab_Dice[1])+intval($tab_Dice[2]);
-
-        if ($couleur == '0') {
-        	if(intval($tab_Dice[0])==0){
-        		return new Response('Impossible car le dé orange n est pas lancé');
-        	}
+        if($couleur < 0 || $couleur > 2 || $position < 0 || $position > 9) {
+            return new Response("Mauvaises valeur reçues");
         }
 
-        if ($couleur == '1') {
-        	if(intval($tab_Dice[1])==0){
-        		return new Response('Impossible car le dé jaune n est pas lancé');
-        	}
+        if($couleur == 0 && intval($tab_Dice[0]) == 0) {
+       		return new Response('Impossible car le dé orange n est pas lancé');
         }
 
-        if ($couleur == '2') {
-        	if(intval($tab_Dice[2])==0){
-        		return new Response('Impossible car le dé violet n est pas lancé');
-        	}
+        if ($couleur == 1 && intval($tab_Dice[1]) == 0) {
+        	return new Response('Impossible car le dé jaune n est pas lancé');
+        }
+
+        if ($couleur == 2 && intval($tab_Dice[2]) == 0) {
+        	return new Response('Impossible car le dé violet n est pas lancé');
         }
 
 
-		for ($i=0; $i <$position; $i++) {
+		for($i=0; $i <$position; $i++) {
     		if($grid->getCase($couleur,$i) >= $total){
-    			return new Response('Il ya des valeurs plus grande avant');
+    			return new Response('Il ya des valeurs plus grande avant : '.$i.' '.$grid->getCase($couleur,$i) );
     		}
 		}
 
-		$grid->setCase($couleur,$position,$total);
+        for($i=$position+1; $i < 9; $i++) {
+            if($grid->getCase($couleur,$i) != 0 && $grid->getCase($couleur,$i) <= $total){
+                return new Response('Il ya des valeurs plus petites après');
+            }
+        }
 
-    	return new Response($grid->getScoreSheet());
+        if($grid->getCase($couleur,$position) != 0) {
+            return new Response('Cette case est déjà remplie');
+        }
+
+		$grid->setCase($couleur,$position,$total);
+        $this->getDoctrine()->getManager()->persist($grid);
+        $this->getDoctrine()->getManager()->flush();
+
+    	return new Response('ok');
     }
 }

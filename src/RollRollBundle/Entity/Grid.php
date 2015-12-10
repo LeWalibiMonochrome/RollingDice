@@ -120,11 +120,22 @@ class Grid
         return $this->played;
     }
 
+    public function getCases($c)
+    {
+        $sc = explode("--", $this->scoreSheet);
+        if(count($sc) != 3) {
+            $this->scoreSheet = "0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0";
+            return $this->getCases($c);
+        }
+
+        return implode(",", explode("-", $sc[$c]));
+    }
+
     public function getCase($c,$i)
     {
         $sc = explode("--", $this->scoreSheet);
         if(count($sc) != 3) {
-            $this->scoreSheet = "0-0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0-0":
+            $this->scoreSheet = "0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0";
             return $this->getCase($c,$i);
         }
 
@@ -137,7 +148,7 @@ class Grid
     {
         $sc = explode("--", $this->scoreSheet);
         if(count($sc) != 3) {
-            $this->scoreSheet = "0-0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0-0":
+            $this->scoreSheet = "0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0";
             return $this->setCase($c,$i,$v);
         }
 

@@ -93,6 +93,10 @@
 		d3 = new rollroll.Dice('d3',3,'#551A8B');
 
 	var rollDices = function() {
+		if(!d1.selected && !d2.selected && !d3.selected){
+		  alert('Aucun dés séléctionné!');
+		  return;
+		}
 		if(game.isRolling){
 		  alert('Les dés sont déja lancé!');
 		  return;

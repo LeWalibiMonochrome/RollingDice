@@ -29,6 +29,13 @@ class Grid
     private $scoreSheet;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="lastDices", type="string", length=255, nullable=true)
+     */
+    private $lastDices;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="played", type="integer")
@@ -181,6 +188,29 @@ class Grid
     public function getGame()
     {
         return $this->game;
+    }
+
+    /**
+     * Set lastDices
+     *
+     * @param String lastDices
+     * @return Grid
+     */
+    public function setLastDices($lastDices)
+    {
+        $this->lastDices = $lastDices;
+
+        return $this;
+    }
+
+    /**
+     * Get lastDices
+     *
+     * @return String
+     */
+    public function getLastDices()
+    {
+        return $this->lastDices;
     }
 }
 

@@ -85,7 +85,7 @@ class UserController extends UserAwareController
 
          	if($user){
                 parent::saveUser($player);
-             	return $this->redirect($this->generateUrl('home'));
+             	return $this->redirect($this->generateUrl('games'));
          	} else {
              	return $this->render('RollRollBundle:Default:error.html.twig',array(
             		'titre'=> "Erreur Login",

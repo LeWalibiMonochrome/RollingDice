@@ -12,6 +12,6 @@ class DefaultController extends UserAwareController
      */
     public function indexAction()
     {
-        return parent::renderPage('RollRollBundle:Default:plateau.html.twig');
+        return parent::renderPage('RollRollBundle:Default:accueil.html.twig');
     }
 }

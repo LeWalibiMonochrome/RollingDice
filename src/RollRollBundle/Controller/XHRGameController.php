@@ -43,7 +43,7 @@ class XHRGameController extends UserAwareController
         $dc=0;
 
         if($a =='y'){
-        	$da=rand(1,6)
+        	$da=rand(1,6);
         }
         if($b =='y'){
         	$db=rand(1,6);

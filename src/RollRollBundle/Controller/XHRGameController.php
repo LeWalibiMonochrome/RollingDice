@@ -14,46 +14,6 @@ use RollRollBundle\Form\CreateGameType;
 
 class XHRGameController extends UserAwareController
 {
-    /**
-     * @Route("/xhr/{id}/gendices/{a}/{b}/{c}", name="xhr_gendices", requirements={"id":"\d{0,10}","a":"y|n","b":"y|n","c":"y|n"})
-     * @ParamConverter("grid", options={"id": "id"})
-     */
-    public function gendicesAction($a,$b,$c,Grid $grid)
-    {
-        $user = parent::getUser();
-        if(!$user) {
-            return new Response("Vous devez être connecté !");
-        }
-        if($user != $grid->getOwner()) {
-            return new Response("Vous ne participez pas a cette partie !");
-        }
-        if($user != $grid->getGame()->getCurrentPlayer()) {
-            return new Response("Ce n'est pas à votre tour de jouer! ");
-        }
-
-        $da=0;
-        $db=0;
-        $dc=0;
-
-        if($a =='y'){
-        	$da=rand(1,6);
-        }
-        if($b == 'y') {
-        	$db = rand(1,6);
-        }
-        if($c == 'y') {
-        	$dc = rand(1,6);
-        }
-        $result=$da.'/'.$db.'/'.$dc;
-
-
-        $grid->setLastDices($result);
-
-        $this->getDoctrine()->getManager()->persist($grid);
-       	$this->getDoctrine()->getManager()->flush();
-
-    	return new Response($result);
-    }
 
     /**
      * @Route("/xhr/{id}/placeDices")
@@ -109,6 +69,26 @@ class XHRGameController extends UserAwareController
 
         if($grid->getCase($couleur,$position) != 0) {
             return new Response('Cette case est déjà remplie');
+        }
+
+        $posi_orange=0;
+        $posi_jaune=0;
+        $posi_violet=0;
+
+        $colonne=0;
+
+        if($couleur==0){
+        	$colonne=$position+2;
+        	if($colonne==7){
+        		$posi_jaune
+        	}
+        	$grid->getCase(1,$colonne)
+        }
+        if($couleur==1){
+        	$colonne=$position+1;
+        }
+        if($couleur==2){
+        	$colonne=$position;
         }
 
 		$grid->setCase($couleur,$position,$total);

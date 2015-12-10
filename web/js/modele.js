@@ -49,4 +49,5 @@ var rollroll = rollroll || {};
     return this.violet[position];
   }
   };  
+  rollroll.Game = Game;
 })(rollroll);

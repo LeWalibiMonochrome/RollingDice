@@ -1,6 +1,6 @@
-var model = model || {};
+var rollroll = rollroll || {};
 
-(function(model){
+(function(rollroll){
   function Game(){
     this.orange = [9,8,0,0,5,4,0,2,1];
     this.jaune = [3,1,4,1,5,1,6,1,7];
@@ -9,11 +9,12 @@ var model = model || {};
     this.colorsScore = [0, 0, 0]; // orange, jaune, violet
     this.pentagonScore = [0, 0, 0, 0, 0];
     this.totalScore = 0;
+    this.isRolling = false;
   };
   
   var p = Game.prototype;
 
-  p.calculateScore = function(){ //
+  p.calculateScore = function(){
     this.colorsScore[0] = 0; this.colorsScore[1] = 0; this.colorsScore[2] = 0;
     for(var i=0; i<5; i++){
       this.pentagonScore[i] = 0;
@@ -48,4 +49,4 @@ var model = model || {};
     return this.violet[position];
   }
   };  
-})(model);
+})(rollroll);

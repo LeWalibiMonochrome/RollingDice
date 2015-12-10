@@ -69,15 +69,15 @@
 	  
 
 	var s = [
-		'<div class="carreOrange" id="sc0"><span>',game.colorsScore[0],'</span></div>',
-		'<div class="carreJaune" id="sc1"><span>',game.colorsScore[1],'</span></div>',
-		'<div class="carreViolet" id="sc2"><span>',game.colorsScore[2],'</span></div> + '
+		'<div class="carreOrange" id="sc0"><span>&nbsp;</span></div>',
+		'<div class="carreJaune" id="sc1"><span>&nbsp;</span></div>',
+		'<div class="carreViolet" id="sc2"><span>&nbsp;</span></div> + '
 	].join('');
 
 	for(var i = 0; i < 5; i++) {
 		s += '<div class="pentagon" id="sp'+i+'"><span>'+game.pentagonScore[i]+'</span></div>';
 	}
-	s += '- <div class="carre" id="sm"><span>'+game.missed*5+'</span></div> = <div class="rectangle" id="st"><span>'+game.totalScore+'</span></div>';
+	s += '- <div class="carre" id="sm"><span>&nbsp;</span></div> = <div class="rectangle" id="st"><span>&nbsp;</span></div>';
 	document.getElementById('grisFonce').innerHTML = s;
 
 	var d1 = new rollroll.Dice('d1',1,'orange'),

@@ -59,15 +59,15 @@ var rollroll = rollroll || {};
     switch(color){
     case 0:
       this.orange[position] = valeur;
-      document.getElementById(""+color+position).outerHTML = this.orange[position];
+      document.getElementById("o"+position).outerHTML = this.orange[position];
       break;
     case 1:
       this.jaune[position] = valeur;
-      document.getElementById(""+color+position).outerHTML = this.jaune[position];
+      document.getElementById("j"+position).outerHTML = this.jaune[position];
       break;
     case 2:
       this.violet[position] = valeur;
-      document.getElementById(""+color+position).outerHTML = this.violet[position];
+      document.getElementById("v"+position).outerHTML = this.violet[position];
       break;
     }
     refreshScore();

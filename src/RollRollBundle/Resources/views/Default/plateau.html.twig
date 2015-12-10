@@ -117,7 +117,9 @@
 		xhr.onload = function (e) {
 			clearInterval(window.diceInt);
 			var xt = xhr.responseText.split('/');
-			console.log(xt);
+			if(xt.length !== 3) {
+			    alert(xhr.responseText);
+			}
 			d1.selected && d1.set(parseInt(xt[0]));
 			d2.selected && d2.set(parseInt(xt[1]));
 			d3.selected && d3.set(parseInt(xt[2]));

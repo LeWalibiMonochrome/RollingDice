@@ -72,8 +72,8 @@ class GameController extends UserAwareController
             ));
         }
 
-        $grid = $this->getDoctrine()->getRepository('RollRollBundle:Grid'))->findBy(array(
-            'user' => $user,
+        $grid = $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findOneBy(array(
+            'owner' => $user,
             'game' => $game
         ));
         if(!$grid) {
@@ -85,7 +85,7 @@ class GameController extends UserAwareController
 
         return parent::renderPage('RollRollBundle:Default:plateau.html.twig',array(
             'game' => $game,
-            'grid' => $grid
+            'grid' => $grid,
             'users' => $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findByGame($game)
         ));
     }

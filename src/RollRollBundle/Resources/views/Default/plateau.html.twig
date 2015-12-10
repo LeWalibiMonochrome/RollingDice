@@ -152,9 +152,10 @@
 	      var st ="";
 	      for(int i=0; i<pseudos.length; i++){
 		if(i==actual){
-		  st+="<b>+pseudos[i]+</b>+"<br />";
+		  st+="<b>"+pseudos[i]+"</b><br />";
+		}else{
+		    st+=pseudos[i]+"<br />";
 		}
-		st+=pseudos[i]+"<br />";
 	      }
 	      document.getElementById("listPlayers").innerHTML=st;
 	};

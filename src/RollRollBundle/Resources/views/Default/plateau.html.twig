@@ -114,6 +114,11 @@
 			    game.isRolling = false;
 			    return;
 			}
+			if(xt== 'x') {
+			    alert('Valeur impossible à placer!');
+			    game.isRolling = false;
+			    return;
+			}
 			d1.selected && d1.set(parseInt(xt[0]));
 			d2.selected && d2.set(parseInt(xt[1]));
 			d3.selected && d3.set(parseInt(xt[2]));

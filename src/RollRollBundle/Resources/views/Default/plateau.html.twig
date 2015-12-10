@@ -21,15 +21,15 @@
 	var game = new rollroll.Game();
 	var s = "", pid = {{ grid.getId() }};
 	val = 0;
-	showPlayers(['Nico','Yann'],0);
+	
 	
 	for(var i=0, j=0; i<10; i++){
 	  if(i == 3) {
 	    s += '<div class="vide">&nbsp;</div>';
 	  }else if(i == 1 || i == 5){
-	    s += '<div class="pentagon" id="o'+j+'" onclick="placeDices(0,'+j+');"><span>&nbsp;</span></div>';
+	    s += '<div class="pentagon" id="o'+j+'" onclick="placeDices(0,'+(j++)+');"><span>&nbsp;</span></div>';
 	  } else {
-	    s += '<div class="rond" id="o'+j+'" onclick="placeDices(0,'+j+');"><span>&nbsp;</span></div>';
+	    s += '<div class="rond" id="o'+j+'" onclick="placeDices(0,'+(j++)+');"><span>&nbsp;</span></div>';
 	  }
 	}
 	document.getElementById('orange').innerHTML = s;
@@ -39,9 +39,9 @@
 	  if(i == 5) {
 	    s += '<div class="vide">&nbsp;</div>';
 	  }else if(i == 7){
-	    s += '<div class="pentagon" id="j'+j+'" onclick="placeDices(1,'+j+');"><span>&nbsp;</span></div>';
+	    s += '<div class="pentagon" id="j'+j+'" onclick="placeDices(1,'+(j++)+');"><span>&nbsp;</span></div>';
 	  } else {
-	    s += '<div class="rond" id="j'+j+'" onclick="placeDices(1,'+j+');"><span>&nbsp;</span></div>';
+	    s += '<div class="rond" id="j'+j+'" onclick="placeDices(1,'+(j++)+');"><span>&nbsp;</span></div>';
 	  }
 	}
 	document.getElementById('jaune').innerHTML = s;
@@ -51,9 +51,9 @@
 	  if(i == 4) {
 	    s += '<div class="vide">&nbsp;</div>';
 	  }else if(i == 2 || i == 9){
-	    s += '<div class="pentagon" id="v'+j+'" onclick="placeDices(2,'+j+');"><span>&nbsp;</span></div>';
+	    s += '<div class="pentagon" id="v'+j+'" onclick="placeDices(2,'+(j++)+');"><span>&nbsp;</span></div>';
 	  } else {
-	    s += '<div class="rond" id="v'+j+'" onclick="placeDices(2,'+j+');"><span>&nbsp;</span></div>';
+	    s += '<div class="rond" id="v'+j+'" onclick="placeDices(2,'+(j++)+');"><span>&nbsp;</span></div>';
 	  }
 	}
 	document.getElementById('violet').innerHTML = s;
@@ -109,6 +109,8 @@
 			var xt = xhr.responseText.split('/');
 			if(xt.length !== 3) {
 			    alert(xhr.responseText);
+			    game.isRolling = false;
+			    return;
 			}
 			d1.selected && d1.set(parseInt(xt[0]));
 			d2.selected && d2.set(parseInt(xt[1]));
@@ -149,15 +151,19 @@
 	};
 	
 	var showPlayers = function(pseudos, actual){
-	      var st ="";
-	      for(int i=0; i<pseudos.length; i++{
-		if(i==actual){
-		  st+="<b>+pseudos[i]+</b>+"<br />";
+		var st ="";
+		for(var i=0; i<pseudos.length; i++){
+			if(i==actual) {
+				st+="<strong>" + pseudos[i] + "</strong><br />";
+			}else {
+				st+=pseudos[i]+"<br />";
+			}
 		}
-		st+=pseudos[i]+"<br />";
-	      }
-	      document.getElementById("listPlayers").innerHTML=st;
+	     document.getElementById("listPlayers").innerHTML=st;
 	};
 	
+	showPlayers([
+		{% for gs in users %}'{{ gs.getOwner().getPseudo() }}',{% endfor %}
+	],0);
 	</script>
 {% endblock %}

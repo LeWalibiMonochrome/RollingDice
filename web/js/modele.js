@@ -3,8 +3,8 @@ var rollroll = rollroll || {};
 (function(rollroll){
   function Game(){
     this.orange = [0,0,0,0,0,0,0,0,0];
-    this.jaune = [3,1,4,1,5,1,6,1,7];
-    this.violet = [1,2,3,4,5,6,7,8,9];
+    this.jaune = [0,0,0,0,0,0,0,0,0];
+    this.violet = [0,0,0,0,0,0,0,0,0];
     this.missed = 0;
     this.colorsScore = [0, 0, 0]; // orange, jaune, violet
     this.pentagonScore = [0, 0, 0, 0, 0];
@@ -15,8 +15,13 @@ var rollroll = rollroll || {};
   var p = Game.prototype;
 
   p.refreshScore = function(){
-    calculateScore();
-    
+    this.calculateScore();
+    for(var i=0; i <3 /*cookies*/; i++)
+      document.getElementById("sc"+i).innerHTML = "<span>"+this.prettify(this.colorsScore[i])+"</span>";
+    for(var i=0; i<5; i++)
+      document.getElementById("sp"+i).innerHTML = "<span>"+this.prettify(this.pentagonScore[i])+"</span>";
+    document.getElementById("sm").innerHTML = "<span>"+this.prettify(this.missed * 5)+"</span>";    
+    document.getElementById("st").innerHTML = "<span>"+this.prettify(this.totalScore)+"</span>";
   }
 
   p.calculateScore = function(){
@@ -24,9 +29,37 @@ var rollroll = rollroll || {};
     for(var i=0; i<5; i++){
       this.pentagonScore[i] = 0;
     }
+
+    var max=0, nbr=0;
     for(var i=0; i<9; i++){
-      this.colorsScore[0] = this.orange[i]; this.colorsScore[1] = this.jaune[i]; this.colorsScore[2] = this.violet[i];
+      if (this.orange[i] != 0){
+	max = Math.max(max, this.orange[i]);
+        nbr++;
+      }
     }
+    if (nbr == 9)  this.colorsScore[0] = max;
+    else  this.colorsScore[0] = nbr;
+
+    max=0; nbr=0;
+    for(var i=0; i<9; i++){
+      if (this.jaune[i] != 0){
+	max = Math.max(max, this.jaune[i]);
+        nbr++;
+      }
+    }
+    if (nbr == 9)  this.colorsScore[1] = max;
+    else  this.colorsScore[1] = nbr;
+
+    max=0; nbr=0;
+    for(var i=0; i<9; i++){
+      if (this.violet[i] != 0){
+	max = Math.max(max, this.violet[i]);
+        nbr++;
+      }
+    }
+    if (nbr == 9)  this.colorsScore[2] = max;
+    else  this.colorsScore[2] = nbr;
+
     if (this.orange[0] !== 0 && this.jaune[1] !== 0) this.pentagonScore[0] = this.violet[2];
     if (this.jaune[2] !== 0 && this.violet[3] !== 0) this.pentagonScore[1] = this.orange[1];
     if (this.jaune[5] !== 0 && this.violet[6] !== 0) this.pentagonScore[2] = this.orange[4];
@@ -70,8 +103,18 @@ var rollroll = rollroll || {};
       document.getElementById("v"+position).innerHTML = "<span>"+this.violet[position]+"</span>";
       break;
     }
-    refreshScore();
+    this.refreshScore();
   };  
+
+  p.addMiss = function(){
+    document.getElementById("m"+this.missed++).innerHTML = "<span>X</span>";
+  }
   
+  p.prettify = function(value){
+    if (value == 0) 
+      return "&nbsp;"
+    return value;
+  };
+
   rollroll.Game = Game;
 })(rollroll);

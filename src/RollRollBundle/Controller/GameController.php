@@ -4,6 +4,7 @@ namespace RollRollBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 use RollRollBundle\Entity\Game;
 use RollRollBundle\Entity\Grid;
@@ -26,8 +27,26 @@ class GameController extends UserAwareController
         	));
     	}
 
+        $users = array();
+        $games = $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findByOwner($user);
+        foreach ($variable as $key => $value) {
+            # code...
+        }
+
         return parent::renderPage('RollRollBundle:User:games.html.twig',array(
-        	'games' => $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findByOwner($user)
+        	'games' => $games
+        ));
+    }
+
+    /**
+     * @Route("/game/{id}", name="game")
+     * @ParamConverter("game", options={"id": "id"})
+     *
+     */
+    public function gameAction(Game $game)
+    {
+        return parent::renderPage('RollRollBundle:Default:plateau.html.twig',array(
+            'game' => $game
         ));
     }
 
@@ -54,7 +73,8 @@ class GameController extends UserAwareController
         $grid->setPlayed(0);
         $grid->setOwner($user);
         $grid->setGame($game);
-
+        $grid->setPlayerOrder(1);
+        
         $form = $this->createForm(new CreateGameType(), $game, array(
             'action' => '',
             'method' => 'POST',

@@ -19,11 +19,15 @@
 		<tr>
 			<th>Nom</th>
 			<th>Joueurs</th>
+			<th>Actions</th>
 		</tr>
 	{% for game in games %}
 		<tr>
 			<td>{{ game.getGame().getName() }}</td>
 			<td>1/{{ game.getGame().getNbPlayers() }}</td>
+			<td>
+				<a href="{{ path('game',{'id':game.getId()}) }}">Jouer</a>
+			</td>
 		</tr>
 	{% endfor %}
 	</table>

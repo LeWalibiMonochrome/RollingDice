@@ -15,10 +15,13 @@ use RollRollBundle\Form\CreateGameType;
 class XHRGameController extends UserAwareController
 {
     /**
-     * @Route("/xhr/{id}/gendices/{a}/{b}/{c}", name="xhr_gendices", requirements={"id": "\d{0,10}", "a":"y|n","b":"y|n","c":"y|n"})
+     * @Route("/xhr/gendices/{id}/{a}/{b}/{c}", name="xhr_gendices", requirements={"a":"y|n","b":"y|n","c":"y|n"})
      * @ParamConverter("grid", options={"id": "id"})
      */
-    public function gendicesAction(Grid $grid)
+
+
+
+    public function gendicesAction($a,$b,$c,Grid $grid)
     {
         $user = parent::getUser();
         if(!$user) {
@@ -28,12 +31,38 @@ class XHRGameController extends UserAwareController
             return new Response("Vous ne participez pas a cette partie !");
         }
 
-    	return new Response(rand(1,6).'/'.rand(1,6).'/'.rand(1,6));
+        if($user != $grid->getGame()->getCurrentPlayer()) {
+            return new Response("Ce n'est pas à votre tour de jouer! ");
+        }
+
+
+        $da = 0;
+        $db = 0;
+        $dc = 0;
+
+        if($a == 'y') {
+        	$da = rand(1,6);
+        }
+        if($b == 'y') {
+        	$db = rand(1,6);
+        }
+        if($c == 'y') {
+        	$dc = rand(1,6);
+        }
+        $result=$da.'/'.$db.'/'.$dc;
+
+
+        $grid->setLastDice($result);
+
+        $this->getDoctrine()->getManager()->persist($grid);
+       	$this->getDoctrine()->getManager()->flush();
+
+    	return new Response($result);
     }
 
 
     /**
-     * @Route("/xhr/{id}/placeDices", requirements={"id": "\d{0,10}"})
+     * @Route("/xhr/{id}/placeDices")
      * @ParamConverter("game", options={"id": "id"})
      */
     public function placeDiceAction(Grid $grid)
@@ -42,8 +71,7 @@ class XHRGameController extends UserAwareController
         if(!$user) {
             return new Response("Vous devez être connecté !");
         }
-
-        if($user != $grid->getOwner()) {
+        if($user != $grid) {
             return new Response("Vous ne participez pas a cette partie !");
         }
 

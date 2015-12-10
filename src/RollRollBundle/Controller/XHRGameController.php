@@ -15,7 +15,7 @@ use RollRollBundle\Form\CreateGameType;
 class XHRGameController extends UserAwareController
 {
     /**
-     * @Route("/xhr/{id}/gendices/{a}/{b}/{c}", name="xhr_gendices", requirements={"a":"y|n","b":"y|n","c":"y|n"})
+     * @Route("/xhr/{id}/gendices/{a}/{b}/{c}", name="xhr_gendices", requirements={"id": "\d{0,10}", "a":"y|n","b":"y|n","c":"y|n"})
      * @ParamConverter("grid", options={"id": "id"})
      */
     public function gendicesAction(Grid $grid)
@@ -24,7 +24,7 @@ class XHRGameController extends UserAwareController
         if(!$user) {
             return new Response("Vous devez être connecté !");
         }
-        if($user != $grid) {
+        if($user != $grid->getOwner()) {
             return new Response("Vous ne participez pas a cette partie !");
         }
 
@@ -33,7 +33,7 @@ class XHRGameController extends UserAwareController
 
 
     /**
-     * @Route("/xhr/{id}/placeDices")
+     * @Route("/xhr/{id}/placeDices", requirements={"id": "\d{0,10}"})
      * @ParamConverter("game", options={"id": "id"})
      */
     public function placeDiceAction(Grid $grid)
@@ -42,7 +42,8 @@ class XHRGameController extends UserAwareController
         if(!$user) {
             return new Response("Vous devez être connecté !");
         }
-        if($user != $grid) {
+
+        if($user != $grid->getOwner()) {
             return new Response("Vous ne participez pas a cette partie !");
         }
 

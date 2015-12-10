@@ -61,6 +61,13 @@ class Grid
      */
     private $playerOrder;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="missed", type="integer", options={"default": 0})
+     */
+    private $missed;
+
 
     /**
      * Get id
@@ -70,6 +77,11 @@ class Grid
     public function getId()
     {
         return $this->id;
+    }
+
+    public function miss()
+    {
+        $this->missed++;
     }
 
     /**
@@ -133,6 +145,10 @@ class Grid
 
     public function getCase($c,$i)
     {
+        if($i < 0 || $i > 8 || $c < 0 || $c > 2) {
+            return 0;
+        }
+
         $sc = explode("--", $this->scoreSheet);
         if(count($sc) != 3) {
             $this->scoreSheet = "0-0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0-0";
@@ -146,6 +162,10 @@ class Grid
 
     public function setCase($c,$i,$v)
     {
+        if($i < 0 || $i > 9 || $c < 0 || $c > 2) {
+            return;
+        }
+        
         $sc = explode("--", $this->scoreSheet);
         if(count($sc) != 3) {
             $this->scoreSheet = "0-0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0-0--0-0-0-0-0-0-0-0-0";
@@ -254,6 +274,29 @@ class Grid
     public function getLastDices()
     {
         return $this->lastDices;
+    }
+
+    /**
+     * Set missed
+     *
+     * @param String missed
+     * @return Grid
+     */
+    public function setMissed($missed)
+    {
+        $this->missed = $missed;
+
+        return $this;
+    }
+
+    /**
+     * Get missed
+     *
+     * @return String
+     */
+    public function getMissed()
+    {
+        return $this->missed;
     }
 }
 

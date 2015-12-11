@@ -33,7 +33,7 @@ class Grid
      *
      * @ORM\Column(name="lastDices", type="string", length=255, nullable=true)
      */
-    private $lastDices;
+    private $lastDices = 'no';
 
     /**
      * @var int

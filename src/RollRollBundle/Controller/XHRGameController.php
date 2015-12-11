@@ -31,6 +31,10 @@ class XHRGameController extends UserAwareController
 			return new Response("Ce n'est pas à votre tour de jouer! ");
 		}
 
+        if($grid->getLastDices() != 'no') {
+            return new Response($grid->getLastDices());
+        }
+
 		$da = 0;
 		$db = 0;
 		$dc = 0;
@@ -127,6 +131,41 @@ class XHRGameController extends UserAwareController
 
 		return true;
 	}
+
+    /**
+     * @Route("/xhr/{id}/getUsers")
+     * @ParamConverter("grid", options={"id": "id"})
+     *
+     */
+    public function gameUsersAction(Grid $grid)
+    {
+        $user = parent::getUser();
+        $game = $grid->getGame();
+        if(!$user) {
+            return new Response('Vous n\'êtes plus connecté');
+        }
+
+        $grid = $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findOneBy(array(
+            'owner' => $user,
+            'game' => $game
+        ));
+
+        if(!$grid) {
+            return new Response('Grille introuvable');
+        }
+
+        $grids = $this->getDoctrine()->getRepository('RollRollBundle:Grid')->findByGame($game);
+        foreach ($grids as $k => $v) {
+            if($v->isComplete()) {
+                return new Response('fin'); 
+            }
+        }
+
+        return parent::renderPage('RollRollBundle:Default:players.txt.twig',array(
+            'users' => $grids,
+            'game' => $game
+        ));
+    }
 
 	/**
 	 * @Route("/xhr/{id}/placeDices")
@@ -257,7 +296,9 @@ class XHRGameController extends UserAwareController
 		
 		$this->nextPlayer($grid);
 
+        $grid->setLastDices('no');
 		$grid->setCase($couleur,$position,$total);
+        
 		$this->getDoctrine()->getManager()->persist($grid);
 		$this->getDoctrine()->getManager()->flush();
 
